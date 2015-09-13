@@ -1,0 +1,34 @@
+@include font-face(OpenSans, "../fonts/OpenSans-Regular-webfont");
+
+@include font-face(OpenSans, "../fonts/OpenSans-Bold-webfont", bold);
+
+
+@include font-face(Michroma, "../fonts/michroma-webfont", bold);
+
+body {
+  @include font-smoothing;
+  color: $white;
+  font-family: Michroma, Raleway, OpenSans, sans-serif;
+  font-size: 1.25em;
+  text-align: center;
+}
+
+small {
+  font-size: 0.75em;
+}
+
+a {
+  color: $white;
+  text-decoration: none;
+  opacity: 1;
+  // autoprefixer will prefix this for you!
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    opacity: 0.55;
+  }
+}
+
+.screenreader {
+  clip: rect(1px, 1px, 1px, 1px);
+  position: absolute !important;
+}

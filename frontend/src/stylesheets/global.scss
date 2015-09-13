@@ -1,0 +1,84 @@
+@import "generated/icons";
+
+@import "base/normalize";
+//@import "base/skeleton";
+@import "base/colors";
+@import "base/mixins";
+@import "base/typography";
+
+$widthFactor: 1.25;
+
+html, body {
+  background-color: $black;
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/bkg6.jpg');
+}
+
+.container{
+  height:100%;
+  letter-spacing: 0.3em;
+  font-size: 0.85em;
+}
+
+#header {
+  padding-top:1em;
+  margin-bottom:1.5em {}
+  text-align:center;
+
+  img {
+    width:100%;
+    max-width: 589px * $widthFactor;
+  }
+}
+
+#content {
+  .tonyviewer {
+   width:100%;
+   max-width: 301px * $widthFactor;
+  }
+
+  .tonylinks{
+    margin-top: 1em;
+
+    .make-a-tony{
+      display:inline-block;
+      margin-right: 2em;
+      background-image: url('/images/new-tony-2x.png');
+      background-repeat: no-repeat;
+      background-position: right;
+      background-size: 1em;
+      padding-right: 1em;
+
+    }
+    .link-a-tony{
+      display:inline-block;
+      background-image: url('/images/link-tony-2x.png');
+      background-repeat: no-repeat;
+      background-position: right;
+      background-size: 1em;
+      padding-right: 1em;
+
+    }
+  }
+}
+
+footer {
+  padding-top: 3em;
+  padding-bottom: 1em;
+  position: absolute;
+  left:0;
+  right:0;
+
+  #tony-footer{
+
+    .tony-footer-thumb{
+      display:inline-block;
+      padding: 1em 1em 0em 0em;
+      max-height: 12em;
+    }
+  }
+
+}
+
+

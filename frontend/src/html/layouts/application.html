@@ -1,0 +1,30 @@
+{% from 'macros/helpers.html' import sprite %}
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Gulp Asset Pipeline{% endblock %}</title>
+  <link rel="stylesheet" href="stylesheets/global.css">
+  {% block head %}{% endblock %}
+
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,100,600" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+  <div class="container">
+    <div id="header">
+      {% block header %}{% endblock %}
+    </div>
+    <div id="content">
+      {% block content %}{% endblock %}
+    </div>
+    <footer>
+      {% block footer %}{% endblock %}
+    </footer>
+  </div>
+
+  <script src="javascripts/shared.js"></script>
+  {% block javascript %}{% endblock %}
+</body>
+</html>

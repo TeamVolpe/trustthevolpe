@@ -1,0 +1,37 @@
+{#
+  Nunjucks!
+  Homepage: https://mozilla.github.io/nunjucks/
+  Docs: https://mozilla.github.io/nunjucks/api.html
+#}
+
+{% extends 'layouts/application.html' %}
+
+{% block title %}
+The Volpenator - Tony Pointy Meme Machine
+{% endblock %}
+
+{% block header %}
+<img src="/images/title-2x.png" alt="The Volpelator - Tony Pointy Meme Machine"/>
+{% endblock %}
+
+{% block content %}
+  {% include "parts/tonymaker.html" %}
+  {% include "parts/tonyviewer.html" %}
+  <!--
+  <img src="images/gulp.png" alt="gulp.js">
+  <h4>Ubiquitous Social Icons!</h4>
+  {% include "parts/social-icons-font.html" %}
+  {% include "parts/social-icons-svg.html" %}
+  <button id="button">Manually Load Async Module</button>
+  <p data-module="Highlight">An auto-loaded async module highlighted this!</p>
+  -->
+{% endblock %}
+
+{% block javascript %}
+<script src="javascripts/page1.js"></script>
+{% endblock %}
+
+
+{% block footer %}
+  {% include "parts/tonyfooter.html" %}
+{% endblock %}
