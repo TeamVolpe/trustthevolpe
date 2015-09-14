@@ -21,10 +21,14 @@ a {
   color: $white;
   text-decoration: none;
   opacity: 1;
+  outline: 0;
   // autoprefixer will prefix this for you!
   transition: all 0.2s ease-in-out;
   &:hover {
     opacity: 0.55;
+  }
+  &:hover, &:focus, &:active{
+    outline:0;
   }
 }
 

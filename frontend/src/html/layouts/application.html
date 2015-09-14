@@ -19,12 +19,14 @@
     <div id="content">
       {% block content %}{% endblock %}
     </div>
-    <footer>
+    <div id="footer">
       {% block footer %}{% endblock %}
-    </footer>
+    </div>
   </div>
 
   <script src="javascripts/shared.js"></script>
+  <script src="https://code.createjs.com/easeljs-0.8.1.min.js"></script>
+  <script src="https://code.createjs.com/preloadjs-0.6.1.min.js"></script>
   {% block javascript %}{% endblock %}
 </body>
 </html>

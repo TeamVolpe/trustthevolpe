@@ -32,6 +32,15 @@ html, body {
   }
 }
 
+a.tonylink{
+  display:inline-block;
+  background-image: url('/images/new-tony-2x.png');
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: 1em;
+  padding-right: 1em;
+}
+
 #content {
   .tonyviewer {
    width:100%;
@@ -42,28 +51,15 @@ html, body {
     margin-top: 1em;
 
     .make-a-tony{
-      display:inline-block;
       margin-right: 2em;
-      background-image: url('/images/new-tony-2x.png');
-      background-repeat: no-repeat;
-      background-position: right;
-      background-size: 1em;
-      padding-right: 1em;
-
     }
     .link-a-tony{
-      display:inline-block;
       background-image: url('/images/link-tony-2x.png');
-      background-repeat: no-repeat;
-      background-position: right;
-      background-size: 1em;
-      padding-right: 1em;
-
     }
   }
 }
 
-footer {
+#footer {
   padding-top: 3em;
   padding-bottom: 1em;
   position: absolute;
@@ -82,3 +78,91 @@ footer {
 }
 
 
+$animTime: 0.3s;
+.overlay-visible{
+  visibility: visible;
+  opacity:1;
+  transition: visibility $animTime linear, opacity $animTime linear;
+  //transition-delay: 0s;
+}
+
+.overlay-invisible{
+  visibility: hidden;
+  opacity:0;
+  transition: visibility 0s linear $animTime, opacity $animTime linear;
+}
+
+.overlay{
+  position: fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  width:100%;
+  height:100%;
+  background-color: rgba(0,0,0,0.85);
+  z-index: 500;
+  text-align:center;
+
+  .overlay-close{
+    position:fixed;
+    right:0;
+    top:0;
+    padding-top:1em;
+    padding-right:1em;
+    width:27px * $widthFactor;
+  }
+}
+
+
+#tonymaker {
+  pointer-events:none;
+  position: relative;
+  width:100%;
+  height:100%;
+
+  #tonymaker-box{
+    pointer-events: auto;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    max-width: 415px * $widthFactor;
+    max-height: 469px * $widthFactor;
+    border: solid 1px $white;
+    border-radius: 0.5em;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+
+    h4{
+      margin: 0.5em 0em;
+      font-size: 0.9em;
+      width:100%;
+    }
+
+    .tonycanvas{
+      display:inline-block;
+      $canvasWidth: 99%;
+      //$canvasHeight: (($canvasWidth*415)/469);
+      width: $canvasWidth;
+      //height: $canvasHeight;
+
+      .loltony-img{
+        position:relative;
+        width: $canvasWidth;
+        height: $canvasWidth;
+        display: inline-block;
+      }
+    }
+
+    .image-scale{
+      position:fixed;
+      bottom:0;
+    }
+
+    .save-a-tony{
+      background-image: url('/images/save-tony-2x.png');
+      margin-top:2.8em;
+    }
+  }
+}

@@ -22,11 +22,35 @@ The Volpenator - Tony Pointy Meme Machine
     </div>
     <div id="content">
       
+  <div id="tonymaker-overlay" class="overlay overlay-invisible">
+  <a href="#"><img class="overlay-close" src="images/close-2x.png" alt="close"/></a>
   
+<div id="tonymaker">
+  <div id="tonymaker-box">
+    <h4>TONY EDITOR</h4>
+
+    <!--<canvas class="tonycanvas"></canvas>-->
+    <div class="tonycanvas">
+      <img id="loltony-holder" class="loltony-img" />
+    </div>
+    <!--
+    <div class="tonycanvas">
+      <img id="loltony-write" class="loltony-img" src="images/loltony-write-2x.png" />
+      <img id="loltony-overlay" class="loltony-img" src="images/loltony-overlay-2x.png" />
+      <img id="loltony-placeholder" class="loltony-img" src="images/loltony-placeholder-2x.png" />
+      <img id="loltony-base" class="loltony-img" src="images/loltony-base-2x.png" />
+    </div> -->
+    <h4 class="image-scale">IMAGE SCALE (PERCENT) <a class="perc-down" href="#">&lt;</a><span class="perc-val">100</span><a class="perc-up" href="#">&gt;</a></h4>
+    <a href="#" class="save-a-tony tonylink">SAVE THIS TONY</a>
+  </div>
+</div>
+
+</div>
+
   <img class="tonyviewer" src="images/meme-2x.jpg" alt="tony-1138"/>
 <div class="tonylinks">
-  <a href="#" class="make-a-tony">MAKE A TONY</a>
-  <a href="#" class="link-a-tony">LINK THIS TONY</a>
+  <a href="#" class="make-a-tony tonylink">MAKE A TONY</a>
+  <a href="#" class="link-a-tony tonylink">COPY TONY LINK</a>
 </div>
 
   <!--
@@ -80,7 +104,7 @@ The Volpenator - Tony Pointy Meme Machine
   -->
 
     </div>
-    <footer>
+    <div id="footer">
       
   LOOK AT SOME TONIES
 <div id="tony-footer">
@@ -129,10 +153,12 @@ The Volpenator - Tony Pointy Meme Machine
 </div>
 
 
-    </footer>
+    </div>
   </div>
 
   <script src="javascripts/shared.js"></script>
+  <script src="https://code.createjs.com/easeljs-0.8.1.min.js"></script>
+  <script src="https://code.createjs.com/preloadjs-0.6.1.min.js"></script>
   
 <script src="javascripts/page1.js"></script>
 
