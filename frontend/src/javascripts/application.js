@@ -1,35 +1,20 @@
 const LolTony = require("./loltony.js");
+const TonyViewer = require("./controllers/TonyViewer");
+const TonyFooter = require("./controllers/TonyFooter");
+const TonyMaker = require("./controllers/TonyMaker");
+const TonyDataService = require("./services/TonyDataService");
+const LongPress = require("./directives/LongPress");
 
 export default class Application{
 
   constructor(){
-    this.lolTonyOverlay = new LolTony( document.getElementById("tonymaker-overlay") );
-    this.init();
+    angular.module("appVolpelator", ["ngDroplet"])
+      .controller("TonyViewerController", ["TonyDataService", TonyViewer])
+      .controller("TonyFooterController", ["TonyDataService", TonyFooter])
+      .controller("TonyMakerController", ["$scope", "$window", TonyMaker])
+      .service("TonyDataService", ["$http", "$q", "$log", TonyDataService])
+      .directive("onLongPress", ["$interval", LongPress]);
   }
-
-  init(){
-    const closeButtons = document.getElementsByClassName("overlay-close");
-    for (let i = 0; i < closeButtons.length; ++i){
-      let btn = closeButtons[i];
-      btn.addEventListener("click", this.closeOpenOverlay);
-    }
-
-    const makeBtn = document.getElementsByClassName("make-a-tony")[0];
-    makeBtn.addEventListener("click", this.showNewOverlay);
-  }
-
-  closeOpenOverlay(){
-    const overlays = document.getElementsByClassName("overlay");
-    for (let i = 0; i < overlays.length; ++i){
-      if(overlays[i].className != "overlay overlay-invisible"){
-        overlays[i].className = "overlay overlay-invisible";
-      }
-    }
-  }
-
-  showNewOverlay(){
-    let overlay = document.getElementById("tonymaker-overlay");
-    overlay.className = "overlay overlay-visible";
-  }
-
 }
+
+var app = new Application();

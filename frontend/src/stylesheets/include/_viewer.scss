@@ -1,0 +1,39 @@
+.tony-viewer-img {
+  width:100%;
+  margin-bottom: 1.2em;
+}
+
+.link-a-tony{
+  background-image: url('/images/link-tony-2x.png');
+}
+
+/* Popover */
+.popover {
+    border: 1px solid #fff;
+    background-color: rgba(0,0,0,0.5);
+}
+
+/* Popover Header */
+.popover-title {
+    background-color: rgba(0,0,0,0);
+    text-align:center;
+}
+
+/* Popover Body */
+.popover-content {
+    //background-color: rgba(0,0,0,0.85);
+    color: #FFFFFF;
+
+  user-select: text;
+  -webkit-user-select: text; /* webkit (safari, chrome) browsers */
+  -moz-user-select: text; /* mozilla browsers */
+  -khtml-user-select: text; /* webkit (konqueror) browsers */
+  -ms-user-select: text; /* IE10+ */
+}
+
+
+@media (min-width: $screen-xs-min) {
+  .make-a-tony{
+    margin-right: 2em;
+  }
+}

@@ -1,32 +1,28 @@
-{% from 'macros/helpers.html' import sprite %}
-
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>{% block title %}Gulp Asset Pipeline{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>The Volpelator - Tony Pointy Meme Machine</title>
   <link rel="stylesheet" href="stylesheets/global.css">
-  {% block head %}{% endblock %}
 
-  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,100,600" rel="stylesheet" type="text/css">
+  <script src="javascripts/v.min.js"></script>
+  <script src="javascripts/shared.js"></script>
+  <script src="javascripts/application.js"></script>
 </head>
 <body>
 
-  <div class="container">
-    <div id="header">
+  <div class="container" ng-app="appVolpelator">
+    <header class="row" id="header">
       {% block header %}{% endblock %}
-    </div>
-    <div id="content">
+    </header>
+    <div class="row" id="content">
       {% block content %}{% endblock %}
     </div>
-    <div id="footer">
+    <div class="row" id="footer">
       {% block footer %}{% endblock %}
     </div>
   </div>
 
-  <script src="javascripts/shared.js"></script>
-  <script src="https://code.createjs.com/easeljs-0.8.1.min.js"></script>
-  <script src="https://code.createjs.com/preloadjs-0.6.1.min.js"></script>
-  {% block javascript %}{% endblock %}
 </body>
 </html>

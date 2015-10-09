@@ -7,7 +7,13 @@ var htmlmin      = require('gulp-htmlmin');
 var handleErrors = require('../lib/handleErrors');
 
 gulp.task('html', function() {
-  render.nunjucks.configure(config.nunjucks, {watch: false });
+
+  var tags = {
+    variableStart: '[[',
+    variableEnd: ']]'
+  };
+
+  render.nunjucks.configure(config.nunjucks, {watch: false, tags: tags});
   return gulp.src(config.src)
     .pipe(render())
     .on('error', handleErrors)
@@ -16,4 +22,5 @@ gulp.task('html', function() {
     .pipe(browserSync.reload({
       stream: true
     }));
+
 });

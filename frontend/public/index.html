@@ -1,166 +1,146 @@
-
-
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>
-The Volpenator - Tony Pointy Meme Machine
-</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>The Volpelator - Tony Pointy Meme Machine</title>
   <link rel="stylesheet" href="stylesheets/global.css">
-  
 
-  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,100,600" rel="stylesheet" type="text/css">
+  <script src="javascripts/v.min.js"></script>
+  <script src="javascripts/shared.js"></script>
+  <script src="javascripts/application.js"></script>
 </head>
 <body>
 
-  <div class="container">
-    <div id="header">
+  <div class="container" ng-app="appVolpelator">
+    <header class="row" id="header">
       
-<img src="/images/title-2x.png" alt="The Volpelator - Tony Pointy Meme Machine"/>
+  <div class="col-lg-8 col-md-8 col-centered">
+  <img src="/images/title-2x.png" alt="The Volpelator - Tony Pointy Meme Machine"/>
+</div>
+
+
+    </header>
+    <div class="row" id="content">
+      
+  <div id="tony-viewer" ng-controller="TonyViewerController as vm" class="col-md-12">
+  <div class="col-lg-4 col-md-4 col-sm-7 col-centered">
+    <img
+      class="tony-viewer-img"
+      ng-src="{{vm.currentImage.link}}"
+      alt="{{vm.currentImage.id}}"
+    />
+  </div>
+
+  <div class="tonylinks col-md-12">
+    <a
+      class="make-a-tony tonylink"
+      data-target="#tonymaker-overlay"
+      data-toggle="modal"
+      ng-click="vm.onMakeTony()"
+    >
+        {{vm.strings.makeTony}}
+    </a>
+    <a
+      class="link-a-tony tonylink"
+      tabindex="0"
+      data-toggle="popover"
+      data-title="COPY THIS TONY"
+      data-content="{{vm.currentImage.deeplink}}"
+      data-viewport=".link-a-tony"
+      data-placement="bottom"
+      data-trigger="focus"
+      ng-click="vm.onCopyTony()"
+    >
+      {{vm.strings.copyTony}}
+    </a>
+  </div>
+</div>
+
+  <div id="tonymaker-overlay" class="modal fade" role="dialog">
+  <!-- close button -->
+  <a class="overlay-close" data-target="#tonymaker-overlay" data-dismiss="modal">
+    <img src="images/close-2x.png" alt="close"/>
+  </a>
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+  <div id="tonymaker" ng-controller="TonyMakerController as vm">
+    <div id="tonymaker-box" class="modal-box">
+      <h4>TONY EDITOR</h4>
+
+      <div class="tonycanvas">
+        <textarea
+          id="tonytext"
+          rows="2"
+          columns="10"
+          ng-model="vm.tonyText"
+          ng-change="vm.onTextChange()"
+          ng-blur="vm.onTextBlur()"
+        ></textarea>
+        <img id="loltony-holder" draggable="false" class="loltony-img"/>
+        <a class="img-map text-map" ng-click="vm.editText()"></a>
+        <a class="img-map drag-map" data-droplet data-upload-single ng-model="vm.dragDropInterface" ng-hide="vm.hasImage"></a>
+        <a class="img-map file-map" ng-hide="vm.hasImage"></a>
+      </div>
+
+      <h4 class="image-scale" ng-show="vm.hasImage">
+        IMAGE SCALE (PERCENT)
+        <br>
+        <span class="perc-triggers">
+          <a
+            class="perc-down"
+            ng-click="vm.onScaleChange(-1)"
+            on-long-press="vm.onScaleChange(-5)"
+          >
+            &lt;
+          </a>
+          <span class="perc-val">{{vm.photoScale}}</span>
+          <a
+            class="perc-up"
+            ng-click="vm.onScaleChange(1)"
+            on-long-press="vm.onScaleChange(5)"
+            >
+            &gt;
+            </a>
+        </span>
+      </h4>
 
     </div>
-    <div id="content">
-      
-  <div id="tonymaker-overlay" class="overlay overlay-invisible">
-  <a href="#"><img class="overlay-close" src="images/close-2x.png" alt="close"/></a>
-  
-<div id="tonymaker">
-  <div id="tonymaker-box">
-    <h4>TONY EDITOR</h4>
-
-    <!--<canvas class="tonycanvas"></canvas>-->
-    <div class="tonycanvas">
-      <img id="loltony-holder" class="loltony-img" />
-    </div>
-    <!--
-    <div class="tonycanvas">
-      <img id="loltony-write" class="loltony-img" src="images/loltony-write-2x.png" />
-      <img id="loltony-overlay" class="loltony-img" src="images/loltony-overlay-2x.png" />
-      <img id="loltony-placeholder" class="loltony-img" src="images/loltony-placeholder-2x.png" />
-      <img id="loltony-base" class="loltony-img" src="images/loltony-base-2x.png" />
-    </div> -->
-    <h4 class="image-scale">IMAGE SCALE (PERCENT) <a class="perc-down" href="#">&lt;</a><span class="perc-val">100</span><a class="perc-up" href="#">&gt;</a></h4>
     <a href="#" class="save-a-tony tonylink">SAVE THIS TONY</a>
   </div>
-</div>
-
-</div>
-
-  <img class="tonyviewer" src="images/meme-2x.jpg" alt="tony-1138"/>
-<div class="tonylinks">
-  <a href="#" class="make-a-tony tonylink">MAKE A TONY</a>
-  <a href="#" class="link-a-tony tonylink">COPY TONY LINK</a>
-</div>
-
-  <!--
-  <img src="images/gulp.png" alt="gulp.js">
-  <h4>Ubiquitous Social Icons!</h4>
-  <p class="social-icons">
-  As an icon font...
-
-  <a class="icon -facebook" href="https://www.facebook.com/vigetlabs">
-    <span class="screenreader">Facebook</span>
-  </a>
-  <a class="icon -twitter" href="https://twitter.com/viget">
-    <span class="screenreader">Twitter</span>
-  </a>
-  <a class="icon -instagram" href="https://instagram.com/viget">
-    <span class="screenreader">Instagram</span>
-  </a>
-</p>
-
-  
-<p class="social-icons">
-  <a href="https://www.facebook.com/vigetlabs">
-    
-  
-  <span class='sprite -facebook '>
-    <svg viewBox="0 0 1 1"><use xlink:href='images/spritesheets/sprites.svg#facebook' /></use></svg>
-  </span>
-
-  </a>
-  <a href="https://twitter.com/viget">
-    
-  
-  <span class='sprite -twitter '>
-    <svg viewBox="0 0 1 1"><use xlink:href='images/spritesheets/sprites.svg#twitter' /></use></svg>
-  </span>
-
-  </a>
-  <a href="https://instagram.com/viget">
-    
-  
-  <span class='sprite -instagram '>
-    <svg viewBox="0 0 1 1"><use xlink:href='images/spritesheets/sprites.svg#instagram' /></use></svg>
-  </span>
-
-  </a>
-    ...or svg sprites!
-</p>
-
-  <button id="button">Manually Load Async Module</button>
-  <p data-module="Highlight">An auto-loaded async module highlighted this!</p>
-  -->
-
-    </div>
-    <div id="footer">
-      
-  LOOK AT SOME TONIES
-<div id="tony-footer">
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-  <img class="tony-footer-thumb" src="/images/meme-2x.jpg" alt="tony-1138"/>
-</div>
-
 
     </div>
   </div>
 
-  <script src="javascripts/shared.js"></script>
-  <script src="https://code.createjs.com/easeljs-0.8.1.min.js"></script>
-  <script src="https://code.createjs.com/preloadjs-0.6.1.min.js"></script>
-  
-<script src="javascripts/page1.js"></script>
+</div>
+
+
+
+
+    </div>
+    <div class="row" id="footer">
+      
+  <div ng-controller="TonyFooterController as vm">
+  <div id="tony-footer-text" class="col-md-12">
+    {{vm.strings.title}}
+  </div>
+  <div id="tony-footer" class="col-md-12" >
+    <img
+      class="tony-footer-thumb col-xs-6 col-sm-4 col-md-3 col-lg-2"
+      alt="{{thumb.id}}"
+      ng-repeat="($index, thumb) in vm.data.thumbList"
+      ng-src="{{thumb.url}}"
+      ng-click="vm.onThumbClick($index)"
+    />
+  </div>
+</div>
+
+
+
+    </div>
+  </div>
 
 </body>
 </html>

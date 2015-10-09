@@ -1,15 +1,11 @@
-@include font-face(OpenSans, "../fonts/OpenSans-Regular-webfont");
-
-@include font-face(OpenSans, "../fonts/OpenSans-Bold-webfont", bold);
-
-
-@include font-face(Michroma, "../fonts/michroma-webfont", bold);
+@include font-face(Michroma, "../fonts/michroma-webfont");
+@include font-face(GloriaHallelujah, "../fonts/gloriahallelujah-webfont");
 
 body {
   @include font-smoothing;
   color: $white;
-  font-family: Michroma, Raleway, OpenSans, sans-serif;
-  font-size: 1.25em;
+  font-family: Michroma, sans-serif;
+  font-size: 1em;
   text-align: center;
 }
 
@@ -18,8 +14,11 @@ small {
 }
 
 a {
-  color: $white;
-  text-decoration: none;
+  &, &:link, &:hover, &:focus, &:active, &:visited{
+    cursor: pointer;
+    color: $white;
+    text-decoration: none;
+  }
   opacity: 1;
   outline: 0;
   // autoprefixer will prefix this for you!

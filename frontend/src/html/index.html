@@ -6,32 +6,19 @@
 
 {% extends 'layouts/application.html' %}
 
-{% block title %}
-The Volpenator - Tony Pointy Meme Machine
-{% endblock %}
-
 {% block header %}
-<img src="/images/title-2x.png" alt="The Volpelator - Tony Pointy Meme Machine"/>
+  {% include "parts/tonyheader.html" %}
 {% endblock %}
 
 {% block content %}
-  {% include "parts/tonymaker.html" %}
   {% include "parts/tonyviewer.html" %}
-  <!--
-  <img src="images/gulp.png" alt="gulp.js">
-  <h4>Ubiquitous Social Icons!</h4>
-  {% include "parts/social-icons-font.html" %}
-  {% include "parts/social-icons-svg.html" %}
-  <button id="button">Manually Load Async Module</button>
-  <p data-module="Highlight">An auto-loaded async module highlighted this!</p>
-  -->
-{% endblock %}
-
-{% block javascript %}
-<script src="javascripts/page1.js"></script>
+  {% include "parts/tonymaker.html" %}
 {% endblock %}
 
 
 {% block footer %}
   {% include "parts/tonyfooter.html" %}
+{% endblock %}
+
+{% block overlays %}
 {% endblock %}

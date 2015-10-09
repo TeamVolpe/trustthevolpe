@@ -1,138 +1,40 @@
-@import "generated/icons";
+@import "lib/bootstrap";
+@import "lib/bootstrap/theme";
 
-@import "base/normalize";
-//@import "base/skeleton";
+
+@import "generated/icons";
 @import "base/colors";
 @import "base/mixins";
 @import "base/typography";
 
+
+@import "include/main";
+@import "include/header";
+@import "include/footer";
+@import "include/overlay";
+@import "include/viewer";
+@import "include/maker";
+
+
+
+
+/*
+@media (min-width: $screen-lg-desktop) {
+  #content {
+    .tonyviewer {
+      width: 25%
+    }
+  }
+}
+*/
+
+/*
 $widthFactor: 1.25;
-
-html, body {
-  background-color: $black;
-  width: 100%;
-  height: 100%;
-  background-image: url('/images/bkg6.jpg');
-}
-
-.container{
-  height:100%;
-  letter-spacing: 0.3em;
-  font-size: 0.85em;
-}
-
-#header {
-  padding-top:1em;
-  margin-bottom:1.5em {}
-  text-align:center;
-
-  img {
-    width:100%;
-    max-width: 589px * $widthFactor;
-  }
-}
-
-a.tonylink{
-  display:inline-block;
-  background-image: url('/images/new-tony-2x.png');
-  background-repeat: no-repeat;
-  background-position: right;
-  background-size: 1em;
-  padding-right: 1em;
-}
-
-#content {
-  .tonyviewer {
-   width:100%;
-   max-width: 301px * $widthFactor;
-  }
-
-  .tonylinks{
-    margin-top: 1em;
-
-    .make-a-tony{
-      margin-right: 2em;
-    }
-    .link-a-tony{
-      background-image: url('/images/link-tony-2x.png');
-    }
-  }
-}
-
-#footer {
-  padding-top: 3em;
-  padding-bottom: 1em;
-  position: absolute;
-  left:0;
-  right:0;
-
-  #tony-footer{
-
-    .tony-footer-thumb{
-      display:inline-block;
-      padding: 1em 1em 0em 0em;
-      max-height: 12em;
-    }
-  }
-
-}
-
-
-$animTime: 0.3s;
-.overlay-visible{
-  visibility: visible;
-  opacity:1;
-  transition: visibility $animTime linear, opacity $animTime linear;
-  //transition-delay: 0s;
-}
-
-.overlay-invisible{
-  visibility: hidden;
-  opacity:0;
-  transition: visibility 0s linear $animTime, opacity $animTime linear;
-}
-
-.overlay{
-  position: fixed;
-  top:0;
-  bottom:0;
-  left:0;
-  right:0;
-  width:100%;
-  height:100%;
-  background-color: rgba(0,0,0,0.85);
-  z-index: 500;
-  text-align:center;
-
-  .overlay-close{
-    position:fixed;
-    right:0;
-    top:0;
-    padding-top:1em;
-    padding-right:1em;
-    width:27px * $widthFactor;
-  }
-}
 
 
 #tonymaker {
-  pointer-events:none;
-  position: relative;
-  width:100%;
-  height:100%;
 
   #tonymaker-box{
-    pointer-events: auto;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    max-width: 415px * $widthFactor;
-    max-height: 469px * $widthFactor;
-    border: solid 1px $white;
-    border-radius: 0.5em;
-    top:50%;
-    left:50%;
-    transform: translate(-50%, -50%);
 
     h4{
       margin: 0.5em 0em;
@@ -146,6 +48,21 @@ $animTime: 0.3s;
       //$canvasHeight: (($canvasWidth*415)/469);
       width: $canvasWidth;
       //height: $canvasHeight;
+
+      #tonytext{
+        font-size: 1.5em;
+        font-family: GloriaHallelujah, sans-serif;
+        position: absolute;
+        z-index: 1000;
+        margin-top: 7%;
+        right: 5%;
+        width: 50%;
+        height: 15%;
+        background-color: rgba(0,0,0,0);
+        border:0;
+        text-align:center;
+        vertical-align: middle;
+      }
 
       .loltony-img{
         position:relative;
@@ -163,6 +80,13 @@ $animTime: 0.3s;
     .save-a-tony{
       background-image: url('/images/save-tony-2x.png');
       margin-top:2.8em;
+      padding-bottom: 0.4em;
     }
   }
 }
+
+.modal-backdrop.in {
+  filter: opacity(0.85);
+  opacity: 0.85;
+}
+*/

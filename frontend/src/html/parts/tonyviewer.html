@@ -1,5 +1,33 @@
-<img class="tonyviewer" src="images/meme-2x.jpg" alt="tony-1138"/>
-<div class="tonylinks">
-  <a href="#" class="make-a-tony tonylink">MAKE A TONY</a>
-  <a href="#" class="link-a-tony tonylink">COPY TONY LINK</a>
+<div id="tony-viewer" ng-controller="TonyViewerController as vm" class="col-md-12">
+  <div class="col-lg-4 col-md-4 col-sm-7 col-centered">
+    <img
+      class="tony-viewer-img"
+      ng-src="{{vm.currentImage.link}}"
+      alt="{{vm.currentImage.id}}"
+    />
+  </div>
+
+  <div class="tonylinks col-md-12">
+    <a
+      class="make-a-tony tonylink"
+      data-target="#tonymaker-overlay"
+      data-toggle="modal"
+      ng-click="vm.onMakeTony()"
+    >
+        {{vm.strings.makeTony}}
+    </a>
+    <a
+      class="link-a-tony tonylink"
+      tabindex="0"
+      data-toggle="popover"
+      data-title="COPY THIS TONY"
+      data-content="{{vm.currentImage.deeplink}}"
+      data-viewport=".link-a-tony"
+      data-placement="bottom"
+      data-trigger="focus"
+      ng-click="vm.onCopyTony()"
+    >
+      {{vm.strings.copyTony}}
+    </a>
+  </div>
 </div>
