@@ -1,0 +1,15 @@
+<div ng-controller="TonyFooterController as vm">
+  <div id="tony-footer-text" class="col-md-12">
+    {{vm.strings.title}}
+  </div>
+  <div id="tony-footer" class="col-md-12" >
+    <img
+      class="tony-footer-thumb col-xs-6 col-sm-4 col-md-3 col-lg-2"
+      alt="{{thumb.id}}"
+      ng-repeat="($index, thumb) in vm.data.thumbList"
+      ng-src="{{thumb.url}}"
+      ng-click="vm.onThumbClick($index)"
+    />
+  </div>
+</div>
+

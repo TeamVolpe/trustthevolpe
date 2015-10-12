@@ -1,2 +1,0 @@
-# trustthevolpe
-Trust the Volpe
