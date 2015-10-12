@@ -15,6 +15,10 @@ export default class TonyMakerImageView {
     this.twoLineTextY = 0;
     this.multiLineTextY = 0;
 
+    this.imageHolder.addEventListener("dragstart",(evt)=>{
+      evt.preventDefault();
+    });
+
     this.initLoad();
   }
 
@@ -92,10 +96,8 @@ export default class TonyMakerImageView {
   }
 
   update(){
-    let ic = this.internalCanvas;
-
     this.stage.update();
-    this.imageHolder.src = ic.toDataURL("image/jpeg");
+    this.imageHolder.src = this.internalCanvas.toDataURL("image/jpeg");
     //console.log("update");
   }
 

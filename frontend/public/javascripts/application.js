@@ -387,6 +387,10 @@ webpackJsonp([0,1],[
 	      this.twoLineTextY = 0;
 	      this.multiLineTextY = 0;
 	
+	      this.imageHolder.addEventListener("dragstart", function (evt) {
+	        evt.preventDefault();
+	      });
+	
 	      this.initLoad();
 	    }
 	  }, {
@@ -464,10 +468,8 @@ webpackJsonp([0,1],[
 	  }, {
 	    key: "update",
 	    value: function update() {
-	      var ic = this.internalCanvas;
-	
 	      this.stage.update();
-	      this.imageHolder.src = ic.toDataURL("image/jpeg");
+	      this.imageHolder.src = this.internalCanvas.toDataURL("image/jpeg");
 	      //console.log("update");
 	    }
 	  }, {
