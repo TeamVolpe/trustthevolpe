@@ -20,7 +20,7 @@ export default class TonyDataService{
 
     let dummyList = [];
     for (let i = 0; i < 42; ++i){
-      dummyList.push({url: "/images/meme-2x.jpg", id:`tony-1138-${i}`, deeplink:`${location.href}${i}`});
+      dummyList.push({url: "./images/meme-2x.jpg", id:`tony-1138-${i}`, deeplink:`${location.href}${i}`});
     }
     data.dummyList = dummyList;
 

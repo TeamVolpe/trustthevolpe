@@ -1,4 +1,3 @@
-const LolTony = require("./loltony.js");
 const TonyViewer = require("./controllers/TonyViewer");
 const TonyFooter = require("./controllers/TonyFooter");
 const TonyMaker = require("./controllers/TonyMaker");
