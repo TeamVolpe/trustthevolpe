@@ -10,10 +10,10 @@ var uglify    = require('gulp-uglify');
 //    referenced asset hash changes, the parent hash will change as well
 gulp.task('rev-css', function(){
   return gulp.src(config.publicDirectory + '/**/*.css')
-    .pipe(rev())
+    //.pipe(rev())
     .pipe(minify())
     .pipe(gulp.dest(config.publicDirectory))
-    .pipe(revNapkin({verbose: false}))
+    //.pipe(revNapkin({verbose: false}))
     .pipe(rev.manifest('public/rev-manifest.json', {merge: true}))
     .pipe(gulp.dest(''));
 });

@@ -36,7 +36,8 @@ module.exports = function(env) {
 
     webpackConfig.output= {
       path: jsDest,
-      filename: env === 'production' ? '[name]-[hash].js' : '[name].js',
+      //filename: env === 'production' ? '[name]-[hash].js' : '[name].js',
+      filename: env === 'production' ? '[name].min.js' : '[name].js',
       publicPath: publicPath
     }
 
@@ -44,7 +45,8 @@ module.exports = function(env) {
     webpackConfig.plugins.push(
       new webpack.optimize.CommonsChunkPlugin({
         name: 'shared',
-        filename: env === 'production' ? '[name]-[hash].js' : '[name].js',
+        //filename: env === 'production' ? '[name]-[hash].js' : '[name].js',
+        filename: env === 'production' ? '[name].min.js' : '[name].js',
       })
     )
   }

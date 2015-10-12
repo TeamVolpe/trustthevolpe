@@ -15,4 +15,4 @@ gulp.task('rev', function(cb) {
     // 5) Report filesizes
     'size-report',
   cb)
-})
+});
