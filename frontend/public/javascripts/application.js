@@ -17,12 +17,11 @@ webpackJsonp([0,1],[
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var LolTony = __webpack_require__(2);
-	var TonyViewer = __webpack_require__(3);
-	var TonyFooter = __webpack_require__(4);
-	var TonyMaker = __webpack_require__(5);
-	var TonyDataService = __webpack_require__(7);
-	var LongPress = __webpack_require__(8);
+	var TonyViewer = __webpack_require__(2);
+	var TonyFooter = __webpack_require__(3);
+	var TonyMaker = __webpack_require__(4);
+	var TonyDataService = __webpack_require__(6);
+	var LongPress = __webpack_require__(7);
 	
 	var Application = function Application() {
 	  _classCallCheck(this, Application);
@@ -37,103 +36,6 @@ webpackJsonp([0,1],[
 
 /***/ },
 /* 2 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var LolTony = (function () {
-	  function LolTony(elem) {
-	    _classCallCheck(this, LolTony);
-	
-	    this.rootElement = elem;
-	    this.init();
-	  }
-	
-	  _createClass(LolTony, [{
-	    key: "init",
-	    value: function init() {
-	      this.canvas = this.rootElement.getElementsByTagName("canvas")[0];
-	      this.initLoad();
-	    }
-	  }, {
-	    key: "initLoad",
-	    value: function initLoad() {
-	      this.preload = new createjs.LoadQueue();
-	      var preload = this.preload;
-	      preload.on("complete", this.onFilesLoaded, this);
-	      preload.loadManifest([{ id: "trust", src: "images/loltony-trust-2x.png" }, { id: "write", src: "images/loltony-write-2x.png" }, { id: "overlay", src: "images/loltony-overlay-2x.png" }, { id: "placeholder", src: "images/loltony-placeholder-2x.png" }, { id: "base", src: "images/loltony-base-2x.png" }]);
-	    }
-	  }, {
-	    key: "onFilesLoaded",
-	    value: function onFilesLoaded() {
-	      var preload = this.preload;
-	      this.images = {};
-	      this.images.trust = preload.getResult("trust");
-	      this.images.write = preload.getResult("write");
-	      this.images.overlay = preload.getResult("overlay");
-	      this.images.placeholder = preload.getResult("placeholder");
-	      this.images.base = preload.getResult("base");
-	
-	      this.initInternalCanvas();
-	    }
-	  }, {
-	    key: "initInternalCanvas",
-	    value: function initInternalCanvas() {
-	      this.internalCanvas = document.createElement("canvas");
-	      var ic = this.internalCanvas;
-	      this.internalContext = ic.getContext("2d");
-	      ic.width = this.images.overlay.width;
-	      ic.height = this.images.overlay.height;
-	      var stage = new createjs.Stage(ic);
-	
-	      var baseImg = new createjs.Bitmap(this.images.base);
-	      var placeholderImg = new createjs.Bitmap(this.images.placeholder);
-	      var overlayImg = new createjs.Bitmap(this.images.overlay);
-	      var writeImg = new createjs.Bitmap(this.images.write);
-	      var trustImg = new createjs.Bitmap(this.images.trust);
-	
-	      stage.addChild(baseImg);
-	      stage.addChild(placeholderImg);
-	      stage.addChild(overlayImg);
-	      stage.addChild(writeImg);
-	      //stage.addChild(trustImg);
-	      this.addText(stage);
-	
-	      stage.update();
-	
-	      var placeholder = document.getElementById("loltony-holder");
-	      placeholder.src = ic.toDataURL("image/png");
-	    }
-	  }, {
-	    key: "addText",
-	    value: function addText(stage) {
-	      var text = new createjs.Text("Hello World HI HI Hi Hi Hi Hello World HI HI Hi Hi Hi", "40px GloriaHallelujah", "#000000");
-	      text.textAlign = "center";
-	      text.maxWidth = this.internalCanvas.width * 0.50;
-	      text.text = "Hello World";
-	      //text.x = 100;
-	      text.x = this.internalCanvas.width * 0.70;
-	      text.y = (this.internalCanvas.height * 0.3 - text.getBounds().height) * 0.5;
-	      stage.addChild(text);
-	    }
-	  }]);
-	
-	  return LolTony;
-	})();
-	
-	exports["default"] = LolTony;
-	module.exports = exports["default"];
-
-/***/ },
-/* 3 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -209,7 +111,7 @@ webpackJsonp([0,1],[
 	module.exports = exports["default"];
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -269,7 +171,7 @@ webpackJsonp([0,1],[
 	module.exports = exports["default"];
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -282,7 +184,7 @@ webpackJsonp([0,1],[
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var TonyMakerImageView = __webpack_require__(6);
+	var TonyMakerImageView = __webpack_require__(5);
 	
 	var TonyMaker = (function () {
 	  function TonyMaker(tonyDataService, $scope, $window, $interval) {
@@ -452,7 +354,7 @@ webpackJsonp([0,1],[
 	module.exports = exports["default"];
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -804,7 +706,7 @@ webpackJsonp([0,1],[
 	module.exports = exports["default"];
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -841,7 +743,7 @@ webpackJsonp([0,1],[
 	
 	      var dummyList = [];
 	      for (var i = 0; i < 42; ++i) {
-	        dummyList.push({ url: "/images/meme-2x.jpg", id: "tony-1138-" + i, deeplink: "" + location.href + i });
+	        dummyList.push({ url: "./images/meme-2x.jpg", id: "tony-1138-" + i, deeplink: "" + location.href + i });
 	      }
 	      data.dummyList = dummyList;
 	
@@ -945,7 +847,7 @@ webpackJsonp([0,1],[
 	module.exports = exports["default"];
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports) {
 
 	"use strict";
