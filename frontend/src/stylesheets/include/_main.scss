@@ -28,3 +28,9 @@ html, body {
   padding-bottom: 0.3em;
   margin-bottom: 1.5em;
 }
+
+@media (min-width: $screen-xs-min) {
+  .left-tonylink{
+    margin-right: 2em;
+  }
+}

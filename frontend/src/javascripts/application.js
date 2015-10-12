@@ -11,7 +11,7 @@ export default class Application{
     angular.module("appVolpelator", ["ngDroplet"])
       .controller("TonyViewerController", ["TonyDataService", TonyViewer])
       .controller("TonyFooterController", ["TonyDataService", TonyFooter])
-      .controller("TonyMakerController", ["$scope", "$window", TonyMaker])
+      .controller("TonyMakerController", ["TonyDataService","$scope", "$window", "$interval", TonyMaker])
       .service("TonyDataService", ["$http", "$q", "$log", TonyDataService])
       .directive("onLongPress", ["$interval", LongPress]);
   }

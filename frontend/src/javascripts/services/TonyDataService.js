@@ -29,6 +29,7 @@ export default class TonyDataService{
 
     let urls = {};
     urls.imageList = "api/list";
+    urls.imageUpload = "api/upload";
     data.urls = urls;
 
     this.data = data;
@@ -102,4 +103,14 @@ export default class TonyDataService{
     tony.deeplink = thumb.deeplink;
   }
 
+  uploadTony(data, onComplete){
+    this.$http.post( this.data.urls.imageUpload, data ).then(
+      (data) => {
+        onComplete("success",data);
+      },
+      (message, code) => {
+        onComplete("error", {"message": message, "code": code});
+      }
+    );
+  }
 }

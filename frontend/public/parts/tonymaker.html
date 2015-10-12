@@ -1,4 +1,4 @@
-<div id="tonymaker-overlay" class="modal fade" role="dialog">
+<div id="tonymaker-overlay" class="modal fade" data-backdrop="static" role="dialog">
   <!-- close button -->
   <a class="overlay-close" data-target="#tonymaker-overlay" data-dismiss="modal">
     <img src="images/close-2x.png" alt="close"/>
@@ -18,12 +18,22 @@
           columns="10"
           ng-model="vm.tonyText"
           ng-change="vm.onTextChange()"
+          ng-focus="vm.onTextFocus()"
           ng-blur="vm.onTextBlur()"
         ></textarea>
         <img id="loltony-holder" draggable="false" class="loltony-img"/>
-        <a class="img-map text-map" ng-click="vm.editText()"></a>
-        <a class="img-map drag-map" data-droplet data-upload-single ng-model="vm.dragDropInterface" ng-hide="vm.hasImage"></a>
-        <a class="img-map file-map" ng-hide="vm.hasImage"></a>
+        <a
+          class="img-map text-map"
+          ng-click="vm.setTextFocus()"
+        ></a>
+        <a
+          class="img-map file-map"
+          data-droplet
+          data-upload-single
+          ng-model="vm.dragDropInterface"
+          ng-hide="vm.hasImage"
+          ng-click="vm.onSelectFile()"
+        ></a>
       </div>
 
       <h4 class="image-scale" ng-show="vm.hasImage">
@@ -49,7 +59,22 @@
       </h4>
 
     </div>
-    <a href="#" class="save-a-tony tonylink">SAVE THIS TONY</a>
+    <div class="tonylinks col-md-12">
+      <a
+        class="save-a-tony tonylink left-tonylink"
+        ng-class="vm.canSave"
+        ng-click="vm.onSaveImage()"
+        >
+        SAVE THIS TONY
+      </a>
+      <a
+        class="reset-a-tony tonylink"
+        ng-click="vm.reset()"
+        >
+        RESET
+      </a>
+    </div>
+    <input type="file" id="loltony-file-select" accept="image/*"/>
   </div>
 
     </div>

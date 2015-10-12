@@ -1,0 +1,17 @@
+{% set overlay_id = "tonymaker-error" %}
+{% set overlay_title = "DANG!" %}
+{% set overlay_cancelable = "true" %}
+{% extends 'parts/overlay.html' %}
+
+{% block content %}
+  <div>
+    <div class="modal-box">
+      <h4>[[overlay_title]]</h4>
+
+      <div class="uploadrror">
+      Duuude! Something went wrong.<br>Please try again later.
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

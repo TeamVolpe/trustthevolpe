@@ -1,5 +1,6 @@
 @include font-face(Michroma, "../fonts/michroma-webfont");
 @include font-face(GloriaHallelujah, "../fonts/gloriahallelujah-webfont");
+//@include font-face()
 
 body {
   @include font-smoothing;
@@ -23,8 +24,11 @@ a {
   outline: 0;
   // autoprefixer will prefix this for you!
   transition: all 0.2s ease-in-out;
-  &:hover {
+  &:hover, &.disabled {
     opacity: 0.55;
+  }
+  &.disabled{
+    cursor:default;
   }
   &:hover, &:focus, &:active{
     outline:0;

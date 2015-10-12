@@ -1,24 +1,28 @@
 export default class TonyMakerImageView {
 
-  constructor(){
-
-    this.fullPhotoBounds = {
-      x: 240,
-      y: 180,
-      width: 414,
-      height: 474
-    };
-
+  constructor($interval){
+    this.$interval = $interval;
   }
 
   init(){
+    this.images = {};
+    this.fullPhotoBounds = { x: 240, y: 180, width: 414, height: 474, xRatio: 0, yRatio: 0 };
+    this.internalCanvas = document.createElement("canvas");
+    this.imageHolder = document.getElementById("loltony-holder");
+    this.children = {};
+
+    this.centerTextY = 0;
+    this.twoLineTextY = 0;
+    this.multiLineTextY = 0;
+
     this.initLoad();
   }
 
   initLoad(){
-    this.preload = new createjs.LoadQueue();
-    let preload = this.preload;
-    preload.on("complete", this.onFilesLoaded, this);
+    let preload = new createjs.LoadQueue();
+
+    preload.on("complete", () => {this.onFilesLoaded(preload); }, this);
+
     preload.loadManifest([
       {id:"trust", src: "images/loltony-trust-2x.png"},
       {id:"write", src: "images/loltony-write-2x.png"},
@@ -28,9 +32,7 @@ export default class TonyMakerImageView {
     ]);
   }
 
-  onFilesLoaded(){
-    let preload = this.preload;
-    this.images = {};
+  onFilesLoaded(preload){
     this.images.trust = preload.getResult("trust");
     this.images.write = preload.getResult("write");
     this.images.overlay = preload.getResult("overlay");
@@ -41,47 +43,84 @@ export default class TonyMakerImageView {
   }
 
   initInternalCanvas(){
-    this.internalCanvas = document.createElement("canvas");
     let ic = this.internalCanvas;
-    this.internalContext = ic.getContext("2d");
     ic.width = this.images.overlay.width;
     ic.height = this.images.overlay.height;
-    let stage = new createjs.Stage(ic);
+
+    let bounds = this.fullPhotoBounds;
+    bounds.xRatio = bounds.x/ic.width;
+    bounds.yRatio = bounds.y/ic.height;
+
+    this.stage = new createjs.Stage(ic);
+
+    this.addChildren();
+  }
+
+  addChildren(){
+    let stage = this.stage;
+    let c = this.children;
+
+
+    let placeholderImg = new createjs.Bitmap(this.images.placeholder);
+    stage.addChild(placeholderImg);
+    c.placeholderImg = placeholderImg;
 
     let baseImg = new createjs.Bitmap(this.images.base);
-    let placeholderImg = new createjs.Bitmap(this.images.placeholder);
-    let overlayImg = new createjs.Bitmap(this.images.overlay);
-    let writeImg = new createjs.Bitmap(this.images.write);
-    let trustImg = new createjs.Bitmap(this.images.trust);
-
-    baseImg.compositeOperation = "multiply";
-
-    stage.addChild(placeholderImg);
     stage.addChild(baseImg);
-    stage.addChild(overlayImg);
-    stage.addChild(writeImg);
-    //stage.addChild(trustImg);
-    let text = this.addText(stage);
-
-
-    this.children = {};
-    let c = this.children;
-    c.text = text;
+    baseImg.compositeOperation = "multiply";
     c.baseImg = baseImg;
-    c.placeholderImg = placeholderImg;
+
+
+    let overlayImg = new createjs.Bitmap(this.images.overlay);
+    stage.addChild(overlayImg);
     c.overlayImg = overlayImg;
+
+    let writeImg = new createjs.Bitmap(this.images.write);
+    stage.addChild(writeImg);
     c.writeImg = writeImg;
+
+    let trustImg = new createjs.Bitmap(this.images.trust);
+    stage.addChild(trustImg);
+    trustImg.visible = false;
     c.trustImg = trustImg;
 
+    this.addText();
 
-    this.placeholder = document.getElementById("loltony-holder");
-    this.stage = stage;
 
     this.update();
+    this.initComplete = true;
+  }
+
+  update(){
+    let ic = this.internalCanvas;
+
+    this.stage.update();
+    this.imageHolder.src = ic.toDataURL("image/jpeg");
+    //console.log("update");
+  }
+
+  reset(){
+    if(this.initComplete){
+
+      let c = this.children;
+      c.writeImg.visible = true;
+      c.placeholderImg.visible = true;
+      c.text.visible = false;
+      c.text.text = "";
+
+      if(c.mainImg && this.stage.contains(c.mainImg)){
+        this.stage.removeChild(c.mainImg);
+        c.mainImg.image = null;
+        c.mainImg = null;
+        this.images.main = null;
+      }
+
+      this.update();
+    }
   }
 
   addText(stage){
-    let text = new createjs.Text("WRITE FUNNY", "40px GloriaHallelujah", "#000000");
+    let text = new createjs.Text("...", "38px GloriaHallelujah", "#000000");
     text.textAlign = "center";
     text.lineWidth = this.internalCanvas.width*0.63;
     //text.text = this.tonyText;
@@ -94,20 +133,15 @@ export default class TonyMakerImageView {
     this.centerTextY = text.y;
     this.twoLineTextY = (this.internalCanvas.height*0.3 - text.getBounds().height*2)*0.5;
     this.multiLineTextY = (this.internalCanvas.height*0.3 - text.getBounds().height*3)*0.5;
+    text.text = "";
 
-    stage.addChild(text);
-    return text;
+    this.stage.addChild(text);
+    this.children.text = text;
   }
 
 
-  update(){
-    let ic = this.internalCanvas;
 
-    this.stage.update();
-    this.placeholder.src = ic.toDataURL("image/jpeg");
-  }
-
-  editText(){
+  onTextFocus(){
     this.children.text.visible = true;
   }
 
@@ -115,6 +149,7 @@ export default class TonyMakerImageView {
     let c = this.children;
 
     c.text.text = newText;
+    c.text.visible = true;
     let lines = c.text.getMetrics().lines.length;
     if(lines > 2){
       c.text.y = this.multiLineTextY;
@@ -124,9 +159,7 @@ export default class TonyMakerImageView {
       c.text.y = this.centerTextY;
     }
 
-    if(this.stage.contains(c.writeImg)){
-      this.stage.removeChild(c.writeImg);
-    }
+    c.writeImg.visible = false;
 
     this.update();
   }
@@ -157,13 +190,123 @@ export default class TonyMakerImageView {
     mainImage.scaleX = mainImage.scaleY = scaler;
 
     stage.addChildAt(mainImage,0);
-    if(stage.contains(placeholder)){
-      stage.removeChild(placeholder);
-    }
+    placeholder.visible = false;
 
     this.update();
 
+    this.setDragHandler();
+
     return Math.ceil(scaler*100);
+  }
+
+  modifyMainImagePosition(x,y){
+    this.children.mainImg.x += x;
+    this.children.mainImg.y += y;
+    //this.update();
+  }
+
+  setDragHandler(){
+    let f = (evt) => {
+      evt.stopPropagation();
+      //evt.preventDefault();
+      if(evt.type === "touchstart"){
+        //evt.pageX = evt.originalEvent.changedTouches[0].pageX;
+        //evt.pageY = evt.originalEvent.changedTouches[0].pageY;
+        let tmp = {};
+
+        tmp.pageX = evt.changedTouches[0].pageX;
+        tmp.pageY = evt.changedTouches[0].pageY;
+        this.touchEventCoords = {
+          x: tmp.pageX,
+          y: tmp.pageY
+        };
+        this.onEventBegin(tmp, "touchmove", "touchend" );
+      }
+      else{
+        this.onEventBegin(evt, "mousemove", "mouseup");
+      }
+    };
+
+    //let $image = $(this.imageHolder);
+    //$image.on("touchstart", f);
+    //$image.on("mousedown", f);
+    this.imageHolder.addEventListener("touchstart", f, false);
+    this.imageHolder.addEventListener("mousedown", f, false);
+  }
+
+  onEventBegin(evt, moveType, endType){
+    if (this.isPointWithinBounds(evt)){
+      // lower fps on mobile
+      let framerate = moveType === "touchmove" ? 6 : 30;
+      this.updateInterval = this.$interval( (args) => { this.update(); }, (1/framerate) );
+      //console.log(evt);
+      //let body = $("body");
+      let body = document.getElementsByTagName("body")[0];
+      let moveMouse = (event) => {
+        this.modifyMainImagePosition(event.movementX, event.movementY);
+      };
+      let moveTouch = (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        let old = this.touchEventCoords;
+        //let x = event.originalEvent.changedTouches[0].pageX;
+        //let y = event.originalEvent.changedTouches[0].pageY;
+        let x = event.changedTouches[0].pageX;
+        let y = event.changedTouches[0].pageY;
+        let tmp = {};
+        tmp.movementX = x - old.x;
+        tmp.movementY = y - old.y;
+        old.x = x;
+        old.y = y;
+        moveMouse(tmp);
+      };
+      let move = moveType === "touchmove" ? moveTouch : moveMouse;
+      let end = (event)=> {
+        event.stopPropagation();
+        event.preventDefault();
+        this.$interval.cancel(this.updateInterval);
+        //body.off(moveType, move);
+        //body.off(endType, end);
+        body.removeEventListener(moveType, move, false);
+        body.removeEventListener(endType, end, false);
+        this.touchEventCoords = null;
+      };
+      //body.on(moveType, move);
+      //body.on(endType, end);
+      body.addEventListener(moveType, move, false);
+      body.addEventListener(endType, end, false);
+    }
+  }
+
+  isPointWithinBounds(evt){
+    let image = this.imageHolder;
+    let bounds = this.fullPhotoBounds;
+
+    let local = this.globalToLocal($(image),evt.pageX,evt.pageY);
+
+    let xRatio = local.x/image.width;
+    let yRatio = local.y/image.height;
+
+    return xRatio >= bounds.xRatio && yRatio >= bounds.yRatio;
+  }
+
+  globalToLocal( context, globalX, globalY ){
+      let position = context.offset();
+      return({
+        x: Math.floor( globalX - position.left ),
+        y: Math.floor( globalY - position.top )
+      });
+  }
+
+  getCanvasData(){
+    this.children.trustImg.visible = true;
+    this.stage.update();
+    let data = this.internalCanvas.toDataURL("image/jpeg");
+
+    this.children.trustImg.visible = false;
+    this.stage.update();
+
+    return data;
   }
 
 }

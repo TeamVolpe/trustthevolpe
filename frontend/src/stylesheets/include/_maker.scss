@@ -45,6 +45,7 @@
     .img-map{
       display: block;
       position: absolute;
+      // debug
       //border: solid 1px black;
     }
 
@@ -55,27 +56,35 @@
       left: 35%;
     }
 
-    .drag-map{
+    .file-map{
       width: 63%;
-      height: 53%;
+      height: 70%;
       top: 30%;
       left: 37%;
     }
 
-    .file-map{
-      width: 55%;
-      height: 13%;
-      top: 83.5%;
-      left: 41%;
-    }
-
   }
+
+}
+
+#loltony-file-select{
+  position: fixed;
+  top: -1000;
+  height:0px
 }
 
 .save-a-tony{
   background-image: url('/images/save-tony-2x.png');
   margin-top:1em;
   padding-bottom: 0.4em;
+}
+
+.reset-a-tony{
+  background-image: url('/images/reset-tony-2x.png');
+}
+
+#tonymaker-error{
+  font-size: 1.4em;
 }
 
 @media (min-width: $screen-xs-min) {
