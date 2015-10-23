@@ -1,5 +1,5 @@
 <div ng-controller="TonyFooterController as vm">
-  <div id="tony-footer-text" class="col-md-12">
+  <div id="tony-footer-text" ng-show="vm.data.thumbList.length > 0" class="col-md-12">
     {{vm.strings.title}}
   </div>
   <div id="tony-footer" class="col-md-12" >

@@ -7,8 +7,8 @@
   <link rel="stylesheet" href="stylesheets/global.css">
 
   <script src="javascripts/v.min.js"></script>
-  <script src="javascripts/shared.min.js"></script>
-  <script src="javascripts/application.min.js"></script>
+  <script src="javascripts/shared.js"></script>
+  <script src="javascripts/application.js"></script>
 </head>
 <body>
 
@@ -175,7 +175,7 @@
     <div class="row" id="footer">
       
   <div ng-controller="TonyFooterController as vm">
-  <div id="tony-footer-text" class="col-md-12">
+  <div id="tony-footer-text" ng-show="vm.data.thumbList.length > 0" class="col-md-12">
     {{vm.strings.title}}
   </div>
   <div id="tony-footer" class="col-md-12" >

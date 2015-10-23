@@ -11,32 +11,38 @@ export default class TonyDataService{
   init(){
     let data = {};
 
+    let urls = {};
+    let loc = `${location.hostname}/`;
+    urls.base = loc.indexOf("localhost") !== -1 || loc.indexOf("192.168.") !== -1 ? "http://52.30.249.142/" : loc;
+    urls.memeBase = urls.base + "tony/";
+    urls.imageList = urls.base + "meme_api/memes/";
+    urls.imageUpload = urls.base + "meme_api/memes/";
+    data.urls = urls;
+
     data.currentTony = {
       link: "images/meme-2x.jpg",
       id: "tony-1138",
-      deeplink:`${location.href}0`
+      deeplink:`${urls.memeBase}0`
     };
 
 
     let dummyList = [];
     for (let i = 0; i < 42; ++i){
-      dummyList.push({url: "./images/meme-2x.jpg", id:`tony-1138-${i}`, deeplink:`${location.href}${i}`});
+      dummyList.push({url: "./images/meme-2x.jpg", id:`tony-1138-${i}`, deeplink:`${urls.memeBase}${i}`});
     }
     data.dummyList = dummyList;
 
     let thumbList = [];
     data.thumbList = thumbList;
 
-    let urls = {};
-    urls.imageList = "api/list";
-    urls.imageUpload = "api/upload";
-    data.urls = urls;
+
+
 
     this.data = data;
   }
 
   loadData(){
-    this.$http.get( this.data.urls.imageList ).then(
+    this.$http.jsonp( this.data.urls.imageList ).then(
       (data) => {
         //this.data.thumbList = data.data;
         this.setThumbList(data.data);
@@ -58,10 +64,14 @@ export default class TonyDataService{
 
   setThumbList(arr){
     let thumbList = this.data.thumbList;
+    let baseUrl = this.data.urls.memeBase;
+
     thumbList.splice(0,thumbList.length);
     let len = arr.length;
     for( let i = 0; i <  len; ++i ){
       let elem = arr[i];
+      elem.link = elem.image;
+      elem.deeplink = `${baseUrl}${elem.id}`;
       thumbList.push(elem);
     }
   }
@@ -104,7 +114,7 @@ export default class TonyDataService{
   }
 
   uploadTony(data, onComplete){
-    this.$http.post( this.data.urls.imageUpload, data ).then(
+    this.$http.post( this.data.urls.imageUpload, { "image": data} ).then(
       (data) => {
         onComplete("success",data);
       },

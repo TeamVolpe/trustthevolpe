@@ -737,25 +737,28 @@ webpackJsonp([0,1],[
 	    value: function init() {
 	      var data = {};
 	
+	      var urls = {};
+	      var loc = location.hostname + "/";
+	      urls.base = loc.indexOf("localhost") !== -1 || loc.indexOf("192.168.") !== -1 ? "http://52.30.249.142/" : loc;
+	      urls.memeBase = urls.base + "tony/";
+	      urls.imageList = urls.base + "meme_api/memes/";
+	      urls.imageUpload = urls.base + "meme_api/memes/";
+	      data.urls = urls;
+	
 	      data.currentTony = {
 	        link: "images/meme-2x.jpg",
 	        id: "tony-1138",
-	        deeplink: location.href + "0"
+	        deeplink: urls.memeBase + "0"
 	      };
 	
 	      var dummyList = [];
 	      for (var i = 0; i < 42; ++i) {
-	        dummyList.push({ url: "./images/meme-2x.jpg", id: "tony-1138-" + i, deeplink: "" + location.href + i });
+	        dummyList.push({ url: "./images/meme-2x.jpg", id: "tony-1138-" + i, deeplink: "" + urls.memeBase + i });
 	      }
 	      data.dummyList = dummyList;
 	
 	      var thumbList = [];
 	      data.thumbList = thumbList;
-	
-	      var urls = {};
-	      urls.imageList = "api/list";
-	      urls.imageUpload = "api/upload";
-	      data.urls = urls;
 	
 	      this.data = data;
 	    }
@@ -764,7 +767,7 @@ webpackJsonp([0,1],[
 	    value: function loadData() {
 	      var _this = this;
 	
-	      this.$http.get(this.data.urls.imageList).then(function (data) {
+	      this.$http.jsonp(this.data.urls.imageList).then(function (data) {
 	        //this.data.thumbList = data.data;
 	        _this.setThumbList(data.data);
 	        //return this.data.thumbList;
@@ -784,10 +787,14 @@ webpackJsonp([0,1],[
 	    key: "setThumbList",
 	    value: function setThumbList(arr) {
 	      var thumbList = this.data.thumbList;
+	      var baseUrl = this.data.urls.memeBase;
+	
 	      thumbList.splice(0, thumbList.length);
 	      var len = arr.length;
 	      for (var i = 0; i < len; ++i) {
 	        var elem = arr[i];
+	        elem.link = elem.image;
+	        elem.deeplink = "" + baseUrl + elem.id;
 	        thumbList.push(elem);
 	      }
 	    }
@@ -834,7 +841,7 @@ webpackJsonp([0,1],[
 	  }, {
 	    key: "uploadTony",
 	    value: function uploadTony(data, onComplete) {
-	      this.$http.post(this.data.urls.imageUpload, data).then(function (data) {
+	      this.$http.post(this.data.urls.imageUpload, { "image": data }).then(function (data) {
 	        onComplete("success", data);
 	      }, function (message, code) {
 	        onComplete("error", { "message": message, "code": code });
