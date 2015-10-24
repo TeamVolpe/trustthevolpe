@@ -13,7 +13,7 @@ export default class TonyDataService{
 
     let urls = {};
     let loc = `${location.hostname}/`;
-    urls.base = loc.indexOf("localhost") !== -1 || loc.indexOf("192.168.") !== -1 ? "http://52.30.249.142/" : loc;
+    urls.base = loc.indexOf("localhost") !== -1 || loc.indexOf("192.168.") !== -1 ? "http://52.30.249.142/" : "/";
     urls.memeBase = urls.base + "tony/";
     urls.imageList = urls.base + "meme_api/memes/";
     urls.imageUpload = urls.base + "meme_api/memes/";
