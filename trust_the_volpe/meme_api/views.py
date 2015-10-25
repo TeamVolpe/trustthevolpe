@@ -11,19 +11,9 @@ from trust_the_volpe.meme_api.models import Meme
 def list_and_create(request):
     if request.body:
         create_meme(request.body)
-
-    # TODO: make dynamic hit the DB
-    memes = [
-        {
-            'id': 1,
-            'image': 'https://trust-the-volpe.s3.amazonaws.com/img/IMG_1294.PNG?Signature=dCZ4qfXfo7E4LLlcIc%2FURdUDlqI%3D&Expires=1445688716&AWSAccessKeyId=AKIAJ3NWBC5CALNUM5SA',
-        },
-        {
-            'id': 2,
-            'image': 'https://trust-the-volpe.s3.amazonaws.com/img/IMG_1294.PNG?Signature=dCZ4qfXfo7E4LLlcIc%2FURdUDlqI%3D&Expires=1445688716&AWSAccessKeyId=AKIAJ3NWBC5CALNUM5SA',
-        }
-    ]
-    return HttpResponse(json.dumps(memes), content_type='application/json')
+    memes = Meme.objects.all()
+    meme_list = [{'id': meme.id, 'image': meme.image.url} for meme in memes]
+    return HttpResponse(json.dumps(meme_list), content_type='application/json')
 
 
 def create_meme(request_body):
