@@ -1,3 +1,4 @@
 img
 frontend/node_modules/*
 trust_the_volpe/settings/doukasd*
+__pycache__

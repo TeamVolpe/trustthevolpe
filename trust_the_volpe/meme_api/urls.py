@@ -1,12 +1,8 @@
 from django.conf.urls import url, include
-from rest_framework import routers
+from trust_the_volpe.meme_api.views import list_and_create
 
-from trust_the_volpe.meme_api import views
-
-
-router = routers.DefaultRouter()
-router.register(r'memes', views.MemeViewSet)
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
+    url(r'^memes/', list_and_create),
+    # TODO: add deep link
 ]
