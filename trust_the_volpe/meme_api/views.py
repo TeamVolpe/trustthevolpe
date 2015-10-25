@@ -1,23 +1,34 @@
-import uuid
-import json
 import base64
+import json
+import uuid
 
-from django.shortcuts import render
-from django.http import HttpResponse
 from django.core.files.base import ContentFile
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, render
 
 from trust_the_volpe.meme_api.models import Meme
 
 
-def list_and_create(request):
+def meme_list_and_create(request):
     if request.body:
-        create_meme(request.body)
+        meme_create(request.body)
     memes = Meme.objects.all()
-    meme_list = [{'id': meme.id, 'image': meme.image.url} for meme in memes]
+    # TODO: add detail url, use github style name
+    meme_list = [api_meme_render(meme) for meme in memes]
     return HttpResponse(json.dumps(meme_list), content_type='application/json')
 
 
-def create_meme(request_body):
+def meme_details(request, meme_id):
+    meme = get_object_or_404(Meme, pk=meme_id)
+    return HttpResponse(
+        json.dumps(api_meme_render(meme)), content_type='application/json')
+
+
+def api_meme_render(meme):
+    return {'id': meme.id, 'image': meme.image.url}
+
+
+def meme_create(request_body):
     data_dict = json.loads(request_body.decode())
     image_data = get_image_data(data_dict['image'])
     content_file = ContentFile(image_data)
