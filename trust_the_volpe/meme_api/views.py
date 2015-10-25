@@ -41,11 +41,19 @@ def meme_create(request_body):
 
 def get_image_data(image_data_base64_with_headers):
     """
-    Image data is a string and base64 encoded. We return a string of decoded
-    data without any base64 headers.
+    Image data is a string and base64 encoded. Return a string of decoded
+    data without any headers.
     """
-    # Will we ever have headerless data? if so deal with this
-    # Remove the "data:image/jpeg;base64," header
-    image_data_base64 = image_data_base64_with_headers.split(',', 1)[1]
+    image_data_base64 = remove_headers(image_data_base64_with_headers)
     image_bytes_base64 = str.encode(image_data_base64)
     return base64.b64decode(image_bytes_base64)
+
+
+def remove_headers(base64_data):
+    """
+    If header data such as "data:image/jpeg;base64," exists in the data
+    remove it
+    """
+    if ',' in base64_data:
+        return base64_data.split(',', 1)[1]
+    return base64_data
