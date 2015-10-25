@@ -1,3 +1,4 @@
+import uuid
 import json
 import base64
 
@@ -20,16 +21,17 @@ def create_meme(request_body):
     data_dict = json.loads(request_body.decode())
     image_data = get_image_data(data_dict['image'])
     content_file = ContentFile(image_data)
+
     meme = Meme()
-    # TODO: use UUID for file name
-    meme.image.save('placeholder_name.jpg', content_file)
+    filename = '{0}.jpg'.format(uuid.uuid4())
+    meme.image.save(filename, content_file)
     meme.save()
 
 
 def get_image_data(image_data_base64_with_headers):
     """
-    Image data is a string and base64 encoded. We return a string of encoded
-    data without any headers
+    Image data is a string and base64 encoded. We return a string of decoded
+    data without any base64 headers.
     """
     # Will we ever have headerless data? if so deal with this
     # Remove the "data:image/jpeg;base64," header
