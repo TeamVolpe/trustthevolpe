@@ -1,10 +1,10 @@
 <div id="[[overlay_id]]" class="modal fade" data-backdrop="[[overlay_cancelable]]" role="dialog">
   <!-- close button -->
-  <a class="overlay-close" data-target="#[[overlay_id]]" data-dismiss="modal">
-    <img src="images/close-2x.png" alt="close"/>
-  </a>
 
   <div class="modal-dialog">
+    <a class="overlay-close" data-target="#[[overlay_id]]" data-dismiss="modal">
+      <img src="images/close-2x.png" alt="close"/>
+    </a>
     <div class="modal-content">
       {% block content %}{% endblock %}
     </div>

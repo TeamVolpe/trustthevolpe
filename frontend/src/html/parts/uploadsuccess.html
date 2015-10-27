@@ -1,0 +1,18 @@
+{% set overlay_id = "tonymaker-success" %}
+{% set overlay_title = "Duuuude, that’s awesome!" %}
+{% set overlay_cancelable = "true" %}
+{% extends 'parts/overlay.html' %}
+
+{% block content %}
+  <div class="basic-overlay">
+    <div class="modal-box">
+      <h4>[[overlay_title]]</h4>
+
+      <div class="uploadsuccess">
+      <img src="./images/greatsuccess-2x.jpg" alt="success!"/>
+      </div>
+    </div>
+      Don’t forget to tell your special gal!
+  </div>
+
+{% endblock %}

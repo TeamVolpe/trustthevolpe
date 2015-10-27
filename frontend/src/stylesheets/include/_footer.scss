@@ -11,3 +11,16 @@
     //width: 12%;
   }
 }
+
+#credits{
+  padding-bottom:1em;
+}
+
+@media (min-width: $screen-xs-min) {
+  #credits{
+    position:fixed;
+    top: 1em;
+    right: 1em;
+  }
+}
+

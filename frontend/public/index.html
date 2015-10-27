@@ -3,12 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta property="og:title" content="The Volpelator - Tony Pointy Meme Machine" />
+  <meta property="og:url" content="http://52.30.249.142/" />
+  <meta property="og:image" content="http://52.30.249.142/images/og-image.jpg" />
   <title>The Volpelator - Tony Pointy Meme Machine</title>
   <link rel="stylesheet" href="stylesheets/global.css">
 
   <script src="javascripts/v.min.js"></script>
-  <script src="javascripts/shared.min.js"></script>
-  <script src="javascripts/application.min.js"></script>
+  <script src="javascripts/shared.js"></script>
+  <script src="javascripts/application.js"></script>
 </head>
 <body>
 
@@ -59,11 +62,11 @@
 
   <div id="tonymaker-overlay" class="modal fade" data-backdrop="static" role="dialog">
   <!-- close button -->
-  <a class="overlay-close" data-target="#tonymaker-overlay" data-dismiss="modal">
-    <img src="images/close-2x.png" alt="close"/>
-  </a>
 
   <div class="modal-dialog">
+    <a class="overlay-close" data-target="#tonymaker-overlay" data-dismiss="modal">
+      <img src="images/close-2x.png" alt="close"/>
+    </a>
     <div class="modal-content">
       
   <div id="tonymaker" ng-controller="TonyMakerController as vm">
@@ -143,23 +146,81 @@
 
 
 
-  <div id="tonymaker-error" class="modal fade" data-backdrop="true" role="dialog">
+  <div id="tonymaker-success" class="modal fade" data-backdrop="true" role="dialog">
   <!-- close button -->
-  <a class="overlay-close" data-target="#tonymaker-error" data-dismiss="modal">
-    <img src="images/close-2x.png" alt="close"/>
-  </a>
 
   <div class="modal-dialog">
+    <a class="overlay-close" data-target="#tonymaker-success" data-dismiss="modal">
+      <img src="images/close-2x.png" alt="close"/>
+    </a>
     <div class="modal-content">
       
-  <div>
+  <div class="basic-overlay">
+    <div class="modal-box">
+      <h4>Duuuude, that’s awesome!</h4>
+
+      <div class="uploadsuccess">
+      <img src="./images/greatsuccess-2x.jpg" alt="success!"/>
+      </div>
+    </div>
+      Don’t forget to tell your special gal!
+  </div>
+
+
+    </div>
+  </div>
+
+</div>
+
+
+
+  <div id="tonymaker-error" class="modal fade" data-backdrop="true" role="dialog">
+  <!-- close button -->
+
+  <div class="modal-dialog">
+    <a class="overlay-close" data-target="#tonymaker-error" data-dismiss="modal">
+      <img src="images/close-2x.png" alt="close"/>
+    </a>
+    <div class="modal-content">
+      
+  <div class="basic-overlay">
     <div class="modal-box">
       <h4>DANG!</h4>
 
-      <div class="uploadrror">
-      Duuude! Something went wrong.<br>Please try again later.
+      <div class="uploaderror">
+      <img src="./images/fail-2x.jpg" alt="error"/>
       </div>
     </div>
+      Duuude! Something went wrong.<br>Please try again later.
+  </div>
+
+
+    </div>
+  </div>
+
+</div>
+
+
+
+  <div id="techlead" class="modal fade" data-backdrop="true" role="dialog">
+  <!-- close button -->
+
+  <div class="modal-dialog">
+    <a class="overlay-close" data-target="#techlead" data-dismiss="modal">
+      <img src="images/close-2x.png" alt="close"/>
+    </a>
+    <div class="modal-content">
+      
+  <div class="basic-overlay">
+    <div class="modal-box">
+      <h4>Tech Lead: Tony Volpe</h4>
+
+      <div class="techlead">
+      <img src="./images/techlead.jpg" alt="success!"/>
+      </div>
+    </div>
+
+      We'll miss you buddy.
   </div>
 
 
@@ -187,6 +248,7 @@
       ng-click="vm.onThumbClick($index)"
     />
   </div>
+  <a id="credits">CREDITS</a>
 </div>
 
 

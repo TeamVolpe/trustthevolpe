@@ -13,6 +13,14 @@ export default class Application{
       .controller("TonyMakerController", ["TonyDataService","$scope", "$window", "$interval", TonyMaker])
       .service("TonyDataService", ["$http", "$q", "$log", TonyDataService])
       .directive("onLongPress", ["$interval", LongPress]);
+
+    $(this.onDocReady);
+  }
+
+  onDocReady(){
+    $("#credits").click(()=>{
+      $("#techlead").modal("show");
+    });
   }
 }
 

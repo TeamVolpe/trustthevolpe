@@ -130,16 +130,28 @@ export default class TonyMaker {
       let data = this.imageView.getCanvasData();
       this.tonyDataService.uploadTony(data, (msg, resp) => {
         console.log(msg,resp);
-        if(msg === "error"){
-          this.enableSave();
-          $("#tonymaker-overlay").modal("hide");
-          $("#tonymaker-error").modal("show").on("hide.bs.modal",()=>{
-            $("#tonymaker-overlay").modal("show");
-          });
+        if(msg === "success"){
+          this.showSuccessOverlay();
+        }else{
+          this.showErrorOverlay();
         }
       });
       //console.log(data);
     }
+  }
+
+  showErrorOverlay(){
+    this.enableSave();
+    $("#tonymaker-overlay").modal("hide");
+    $("#tonymaker-error").modal("show").on("hide.bs.modal",()=>{
+      $("#tonymaker-overlay").modal("show");
+    });
+  }
+
+  showSuccessOverlay(){
+    this.enableSave();
+    $("#tonymaker-overlay").modal("hide");
+    $("#tonymaker-success").modal("show");
   }
 
 }

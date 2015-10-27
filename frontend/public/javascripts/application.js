@@ -15,6 +15,8 @@ webpackJsonp([0,1],[
 	  value: true
 	});
 	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var TonyViewer = __webpack_require__(2);
@@ -23,11 +25,26 @@ webpackJsonp([0,1],[
 	var TonyDataService = __webpack_require__(6);
 	var LongPress = __webpack_require__(7);
 	
-	var Application = function Application() {
-	  _classCallCheck(this, Application);
+	var Application = (function () {
+	  function Application() {
+	    _classCallCheck(this, Application);
 	
-	  angular.module("appVolpelator", ["ngDroplet"]).controller("TonyViewerController", ["TonyDataService", TonyViewer]).controller("TonyFooterController", ["TonyDataService", TonyFooter]).controller("TonyMakerController", ["TonyDataService", "$scope", "$window", "$interval", TonyMaker]).service("TonyDataService", ["$http", "$q", "$log", TonyDataService]).directive("onLongPress", ["$interval", LongPress]);
-	};
+	    angular.module("appVolpelator", ["ngDroplet"]).controller("TonyViewerController", ["TonyDataService", TonyViewer]).controller("TonyFooterController", ["TonyDataService", TonyFooter]).controller("TonyMakerController", ["TonyDataService", "$scope", "$window", "$interval", TonyMaker]).service("TonyDataService", ["$http", "$q", "$log", TonyDataService]).directive("onLongPress", ["$interval", LongPress]);
+	
+	    $(this.onDocReady);
+	  }
+	
+	  _createClass(Application, [{
+	    key: "onDocReady",
+	    value: function onDocReady() {
+	      $("#credits").click(function () {
+	        $("#techlead").modal("show");
+	      });
+	    }
+	  }]);
+	
+	  return Application;
+	})();
 	
 	exports["default"] = Application;
 	
@@ -152,7 +169,7 @@ webpackJsonp([0,1],[
 	  }, {
 	    key: "onThumbClick",
 	    value: function onThumbClick(id) {
-	      console.log("click", id);
+	      //console.log("click", id);
 	      this.tonyDataService.setCurrentTony(id);
 	      //window.scrollTo(0,0);
 	      $("body").animate({ "scrollTop": 0 }, "swing");
@@ -334,16 +351,30 @@ webpackJsonp([0,1],[
 	        var data = this.imageView.getCanvasData();
 	        this.tonyDataService.uploadTony(data, function (msg, resp) {
 	          console.log(msg, resp);
-	          if (msg === "error") {
-	            _this4.enableSave();
-	            $("#tonymaker-overlay").modal("hide");
-	            $("#tonymaker-error").modal("show").on("hide.bs.modal", function () {
-	              $("#tonymaker-overlay").modal("show");
-	            });
+	          if (msg === "success") {
+	            _this4.showSuccessOverlay();
+	          } else {
+	            _this4.showErrorOverlay();
 	          }
 	        });
 	        //console.log(data);
 	      }
+	    }
+	  }, {
+	    key: "showErrorOverlay",
+	    value: function showErrorOverlay() {
+	      this.enableSave();
+	      $("#tonymaker-overlay").modal("hide");
+	      $("#tonymaker-error").modal("show").on("hide.bs.modal", function () {
+	        $("#tonymaker-overlay").modal("show");
+	      });
+	    }
+	  }, {
+	    key: "showSuccessOverlay",
+	    value: function showSuccessOverlay() {
+	      this.enableSave();
+	      $("#tonymaker-overlay").modal("hide");
+	      $("#tonymaker-success").modal("show");
 	    }
 	  }]);
 	
@@ -740,10 +771,11 @@ webpackJsonp([0,1],[
 	      var urls = {};
 	      var loc = location.hostname + "/";
 	      urls.base = loc.indexOf("localhost") !== -1 || loc.indexOf("192.168.") !== -1 ? "http://52.30.249.142/" : "/";
-	      urls.memeBase = urls.base + "tony/";
+	      urls.memeBase = location.origin + "/tony/";
 	      urls.imageList = urls.base + "meme_api/memes/";
 	      urls.imageUpload = urls.base + "meme_api/memes/";
 	      data.urls = urls;
+	      console.log(data.urls);
 	
 	      data.currentTony = {
 	        link: "images/meme-2x.jpg",
@@ -753,7 +785,8 @@ webpackJsonp([0,1],[
 	
 	      var dummyList = [];
 	      for (var i = 0; i < 42; ++i) {
-	        dummyList.push({ url: "./images/meme-2x.jpg", id: "tony-1138-" + i, deeplink: "" + urls.memeBase + i });
+	        //match format of backend data
+	        dummyList.push({ image: "./images/meme-2x.jpg", id: "tony-1138-" + i });
 	      }
 	      data.dummyList = dummyList;
 	
@@ -767,7 +800,8 @@ webpackJsonp([0,1],[
 	    value: function loadData() {
 	      var _this = this;
 	
-	      this.$http.jsonp(this.data.urls.imageList).then(function (data) {
+	      this.$http.get(this.data.urls.imageList).then(function (data) {
+	        console.log(data);
 	        //this.data.thumbList = data.data;
 	        _this.setThumbList(data.data);
 	        //return this.data.thumbList;
@@ -793,7 +827,7 @@ webpackJsonp([0,1],[
 	      var len = arr.length;
 	      for (var i = 0; i < len; ++i) {
 	        var elem = arr[i];
-	        elem.link = elem.image;
+	        elem.url = elem.image;
 	        elem.deeplink = "" + baseUrl + elem.id;
 	        thumbList.push(elem);
 	      }
@@ -834,7 +868,7 @@ webpackJsonp([0,1],[
 	    value: function setCurrentTony(id) {
 	      var tony = this.data.currentTony;
 	      var thumb = this.data.thumbList[id];
-	      tony.link = thumb.link;
+	      tony.link = thumb.url;
 	      tony.id = thumb.id;
 	      tony.deeplink = thumb.deeplink;
 	    }

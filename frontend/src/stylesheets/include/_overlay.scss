@@ -1,32 +1,44 @@
 .overlay-close{
-  position:fixed;
-  right:0;
-  top:0;
-  padding-top:1em;
-  display: block;
+  position: absolute;
+  margin: 0px;
+  right: -5em;
 
   img{
     width:50%;
   }
 }
 
+@media (max-width: $screen-xs-min) {
+  .overlay-close{
+    top: -3.5em;
+    right: -1.5em;
+  }
+}
+
 
 .modal-content{
-  //opacity:0;
   box-shadow: none;
   border: none;
   background-color: transparent;
   margin-top: 5em;
+
+  .basic-overlay{
+    font-size: 1.4em;
+  }
+
+
+  img{
+    width:100%;
+  }
 }
 
 .modal-backdrop.in{
-  opacity: 0.85;
-  filter: opacity(0.85);
+  $alpha: 0.90;
+  opacity: $alpha;
+  filter: opacity($alpha);
 }
 
 .modal-dialog{
-  //$widthFactor: 1.25;
-  //max-width: 415px * $widthFactor;
   max-width: 500px;
 }
 
@@ -34,7 +46,6 @@
   display: block;
   border: solid 1px $white;
   border-radius: 0.5em;
-  //max-height: 469px * $widthFactor;
   padding: 0 1em 1em;
 }
 
