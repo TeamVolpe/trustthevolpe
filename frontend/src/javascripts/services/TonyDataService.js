@@ -14,7 +14,8 @@ export default class TonyDataService{
     let urls = {};
     let loc = `${location.hostname}/`;
     urls.base = loc.indexOf("localhost") !== -1 || loc.indexOf("192.168.") !== -1 ? "http://52.30.249.142/" : "/";
-    urls.memeBase = `${location.origin}/tony/`;
+    urls.origin = `${location.origin}/`;
+    urls.memeBase = "tony/";
     urls.imageList = urls.base + "meme_api/memes/";
     urls.imageUpload = urls.base + "meme_api/memes/";
     data.urls = urls;
@@ -30,7 +31,7 @@ export default class TonyDataService{
     let dummyList = [];
     for (let i = 0; i < 42; ++i){
       //match format of backend data
-      dummyList.push({image: "./images/meme-2x.jpg", id:`tony-1138-${i}`});
+      dummyList.push({image: "/images/meme-2x.jpg", id:`tony-1138-${i}`});
     }
     data.dummyList = dummyList;
 
@@ -67,7 +68,8 @@ export default class TonyDataService{
 
   setThumbList(arr){
     let thumbList = this.data.thumbList;
-    let baseUrl = this.data.urls.memeBase;
+    let memeBase = this.data.urls.memeBase;
+    let baseUrl = `${this.data.urls.origin}${memeBase}`;
 
     thumbList.splice(0,thumbList.length);
     let len = arr.length;
@@ -75,6 +77,7 @@ export default class TonyDataService{
       let elem = arr[i];
       elem.url = elem.image;
       elem.deeplink = `${baseUrl}${elem.id}`;
+      elem.pushState = `${memeBase}${elem.id}`;
       thumbList.push(elem);
     }
   }
@@ -114,6 +117,13 @@ export default class TonyDataService{
     tony.link = thumb.url;
     tony.id = thumb.id;
     tony.deeplink = thumb.deeplink;
+    tony.pushState = thumb.pushState;
+    let state = tony.pushState;
+    if (window.location.pathname.indexOf(this.data.urls.memeBase) != -1){
+      state = tony.id;
+    }
+
+    History.pushState({id: tony.id}, `Tony: ${tony.id}`, state);
   }
 
   uploadTony(data, onComplete){

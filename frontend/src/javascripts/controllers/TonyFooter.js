@@ -23,6 +23,7 @@ export default class TonyFooter{
   onThumbClick(id){
     //console.log("click", id);
     this.tonyDataService.setCurrentTony(id);
+
     //window.scrollTo(0,0);
     $("body").animate({"scrollTop": 0 }, "swing");
   }

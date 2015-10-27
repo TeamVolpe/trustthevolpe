@@ -171,6 +171,7 @@ webpackJsonp([0,1],[
 	    value: function onThumbClick(id) {
 	      //console.log("click", id);
 	      this.tonyDataService.setCurrentTony(id);
+	
 	      //window.scrollTo(0,0);
 	      $("body").animate({ "scrollTop": 0 }, "swing");
 	    }
@@ -771,7 +772,8 @@ webpackJsonp([0,1],[
 	      var urls = {};
 	      var loc = location.hostname + "/";
 	      urls.base = loc.indexOf("localhost") !== -1 || loc.indexOf("192.168.") !== -1 ? "http://52.30.249.142/" : "/";
-	      urls.memeBase = location.origin + "/tony/";
+	      urls.origin = location.origin + "/";
+	      urls.memeBase = "tony/";
 	      urls.imageList = urls.base + "meme_api/memes/";
 	      urls.imageUpload = urls.base + "meme_api/memes/";
 	      data.urls = urls;
@@ -786,7 +788,7 @@ webpackJsonp([0,1],[
 	      var dummyList = [];
 	      for (var i = 0; i < 42; ++i) {
 	        //match format of backend data
-	        dummyList.push({ image: "./images/meme-2x.jpg", id: "tony-1138-" + i });
+	        dummyList.push({ image: "/images/meme-2x.jpg", id: "tony-1138-" + i });
 	      }
 	      data.dummyList = dummyList;
 	
@@ -821,7 +823,8 @@ webpackJsonp([0,1],[
 	    key: "setThumbList",
 	    value: function setThumbList(arr) {
 	      var thumbList = this.data.thumbList;
-	      var baseUrl = this.data.urls.memeBase;
+	      var memeBase = this.data.urls.memeBase;
+	      var baseUrl = "" + this.data.urls.origin + memeBase;
 	
 	      thumbList.splice(0, thumbList.length);
 	      var len = arr.length;
@@ -829,6 +832,7 @@ webpackJsonp([0,1],[
 	        var elem = arr[i];
 	        elem.url = elem.image;
 	        elem.deeplink = "" + baseUrl + elem.id;
+	        elem.pushState = "" + memeBase + elem.id;
 	        thumbList.push(elem);
 	      }
 	    }
@@ -871,6 +875,13 @@ webpackJsonp([0,1],[
 	      tony.link = thumb.url;
 	      tony.id = thumb.id;
 	      tony.deeplink = thumb.deeplink;
+	      tony.pushState = thumb.pushState;
+	      var state = tony.pushState;
+	      if (window.location.pathname.indexOf(this.data.urls.memeBase) != -1) {
+	        state = tony.id;
+	      }
+	
+	      History.pushState({ id: tony.id }, "Tony: " + tony.id, state);
 	    }
 	  }, {
 	    key: "uploadTony",

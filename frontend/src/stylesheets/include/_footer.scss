@@ -8,7 +8,14 @@
 
   .tony-footer-thumb{
     padding: 1em;
+    cursor: pointer;
     //width: 12%;
+
+    &:hover{
+      $alpha: 0.85;
+      opacity: $alpha;
+      filter: opacity($alpha);
+    }
   }
 }
 
