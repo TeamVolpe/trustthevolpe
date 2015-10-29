@@ -11,7 +11,7 @@ export default class Application{
       .controller("TonyViewerController", ["TonyDataService", TonyViewer])
       .controller("TonyFooterController", ["TonyDataService", TonyFooter])
       .controller("TonyMakerController", ["TonyDataService","$scope", "$window", "$interval", TonyMaker])
-      .service("TonyDataService", ["$http", "$q", "$log", TonyDataService])
+      .service("TonyDataService", ["$http", "$q", "$log", "$document", TonyDataService])
       .directive("onLongPress", ["$interval", LongPress]);
 
     $(this.onDocReady);

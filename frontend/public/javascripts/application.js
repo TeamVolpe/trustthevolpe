@@ -29,7 +29,7 @@ webpackJsonp([0,1],[
 	  function Application() {
 	    _classCallCheck(this, Application);
 	
-	    angular.module("appVolpelator", ["ngDroplet"]).controller("TonyViewerController", ["TonyDataService", TonyViewer]).controller("TonyFooterController", ["TonyDataService", TonyFooter]).controller("TonyMakerController", ["TonyDataService", "$scope", "$window", "$interval", TonyMaker]).service("TonyDataService", ["$http", "$q", "$log", TonyDataService]).directive("onLongPress", ["$interval", LongPress]);
+	    angular.module("appVolpelator", ["ngDroplet"]).controller("TonyViewerController", ["TonyDataService", TonyViewer]).controller("TonyFooterController", ["TonyDataService", TonyFooter]).controller("TonyMakerController", ["TonyDataService", "$scope", "$window", "$interval", TonyMaker]).service("TonyDataService", ["$http", "$q", "$log", "$document", TonyDataService]).directive("onLongPress", ["$interval", LongPress]);
 	
 	    $(this.onDocReady);
 	  }
@@ -436,7 +436,7 @@ webpackJsonp([0,1],[
 	        _this.onFilesLoaded(preload);
 	      }, this);
 	
-	      preload.loadManifest([{ id: "trust", src: "images/loltony-trust-2x.png" }, { id: "write", src: "images/loltony-write-2x.png" }, { id: "overlay", src: "images/loltony-overlay-2x.png" }, { id: "placeholder", src: "images/loltony-placeholder-2x.png" }, { id: "base", src: "images/loltony-base-2x.png" }]);
+	      preload.loadManifest([{ id: "trust", src: "/images/loltony-trust-2x.png" }, { id: "write", src: "/images/loltony-write-2x.png" }, { id: "overlay", src: "/images/loltony-overlay-2x.png" }, { id: "placeholder", src: "/images/loltony-placeholder-2x.png" }, { id: "base", src: "/images/loltony-base-2x.png" }]);
 	    }
 	  }, {
 	    key: "onFilesLoaded",
@@ -754,13 +754,15 @@ webpackJsonp([0,1],[
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var TonyDataService = (function () {
-	  function TonyDataService($http, $q, $log) {
+	  function TonyDataService($http, $q, $log, $document) {
 	    _classCallCheck(this, TonyDataService);
 	
 	    this.$http = $http;
 	    this.$q = $q;
 	    this.$log = $log;
+	    this.$document = $document;
 	    this.init();
+	    this.checkDeepLink();
 	    this.loadData();
 	  }
 	
@@ -768,6 +770,8 @@ webpackJsonp([0,1],[
 	    key: "init",
 	    value: function init() {
 	      var data = {};
+	
+	      data.title = this.$document[0].title;
 	
 	      var urls = {};
 	      var loc = location.hostname + "/";
@@ -777,41 +781,79 @@ webpackJsonp([0,1],[
 	      urls.imageList = urls.base + "meme_api/memes/";
 	      urls.imageUpload = urls.base + "meme_api/memes/";
 	      data.urls = urls;
-	      console.log(data.urls);
-	
-	      data.currentTony = {
-	        link: "images/meme-2x.jpg",
-	        id: "tony-1138",
-	        deeplink: urls.memeBase + "0"
-	      };
 	
 	      var dummyList = [];
 	      for (var i = 0; i < 42; ++i) {
 	        //match format of backend data
-	        dummyList.push({ image: "/images/meme-2x.jpg", id: "tony-1138-" + i });
+	        dummyList.push({ image: "/images/meme-2x.jpg", id: "" + i });
 	      }
 	      data.dummyList = dummyList;
 	
 	      var thumbList = [];
 	      data.thumbList = thumbList;
 	
+	      data.currentTony = {
+	        link: "",
+	        id: "",
+	        deeplink: ""
+	      };
+	
 	      this.data = data;
+	    }
+	  }, {
+	    key: "checkDeepLink",
+	    value: function checkDeepLink() {
+	      var state = History.getState();
+	      if (state.hash.indexOf(this.data.urls.memeBase) === -1) {
+	        // no deeplink
+	        // don't load something, let it be set by the data list return;
+	        //this.loadSingleTony(5);
+	      } else {
+	          // deeplink
+	          var id = parseInt(state.url.split(this.data.urls.memeBase)[1]);
+	          this.loadSingleTony(id);
+	        }
+	      /*
+	      data.currentTony = {
+	        link: "images/meme-2x.jpg",
+	        id: "tony-1138",
+	        deeplink:`${urls.memeBase}0`
+	      };
+	      */
+	    }
+	  }, {
+	    key: "loadSingleTony",
+	    value: function loadSingleTony(id) {
+	      var _this = this;
+	
+	      var data = this.data;
+	      if (data.thumbList[id]) {
+	        this.setCurrentTony(id);
+	      } else {
+	        this.$http.get("" + data.urls.imageList + id).then(function (result) {
+	          console.log(result);
+	          //this.setThumbList(result.data);
+	          _this.formatImageData(result.data);
+	          _this.setCurrentTonyByData(result.data);
+	        }, function (message, code) {
+	          //this.setThumbList(data.dummyList);
+	          //this.$log.warn("$http error - loadSingleTony: Using dummy data -", message, code);
+	          data.currentTony.link = "images/meme-2x.jpg";
+	          data.currentTony.id = "tony-1138";
+	          data.currentTony.deeplink = data.urls.memeBase + "0";
+	        });
+	      }
 	    }
 	  }, {
 	    key: "loadData",
 	    value: function loadData() {
-	      var _this = this;
+	      var _this2 = this;
 	
 	      this.$http.get(this.data.urls.imageList).then(function (data) {
-	        console.log(data);
-	        //this.data.thumbList = data.data;
-	        _this.setThumbList(data.data);
-	        //return this.data.thumbList;
+	        _this2.setThumbList(data.data);
 	      }, function (message, code) {
-	        _this.setThumbList(_this.data.dummyList);
-	        //this.data.thumbList = this.data.dummyList;
-	        _this.$log.warn("$http error - getThumbList: Using dummy list -", message, code);
-	        //return this.data.thumbList;
+	        _this2.setThumbList(_this2.data.dummyList);
+	        _this2.$log.warn("$http error - getThumbList: Using dummy list -", message, code);
 	      });
 	    }
 	  }, {
@@ -825,16 +867,27 @@ webpackJsonp([0,1],[
 	      var thumbList = this.data.thumbList;
 	      var memeBase = this.data.urls.memeBase;
 	      var baseUrl = "" + this.data.urls.origin + memeBase;
+	      var format = this.formatImageData;
 	
 	      thumbList.splice(0, thumbList.length);
 	      var len = arr.length;
 	      for (var i = 0; i < len; ++i) {
 	        var elem = arr[i];
-	        elem.url = elem.image;
-	        elem.deeplink = "" + baseUrl + elem.id;
-	        elem.pushState = "" + memeBase + elem.id;
+	        format(elem, baseUrl, memeBase);
 	        thumbList.push(elem);
 	      }
+	      var state = History.getState();
+	      if (state.hash.indexOf(memeBase) === -1) {
+	        console.log("billy");
+	        this.setCurrentTony(thumbList.length - 1);
+	      }
+	    }
+	  }, {
+	    key: "formatImageData",
+	    value: function formatImageData(obj, url, base) {
+	      obj.url = obj.image;
+	      obj.deeplink = "" + url + obj.id;
+	      obj.pushState = "" + base + obj.id;
 	    }
 	
 	    /*
@@ -872,16 +925,19 @@ webpackJsonp([0,1],[
 	    value: function setCurrentTony(id) {
 	      var tony = this.data.currentTony;
 	      var thumb = this.data.thumbList[id];
-	      tony.link = thumb.url;
-	      tony.id = thumb.id;
-	      tony.deeplink = thumb.deeplink;
-	      tony.pushState = thumb.pushState;
-	      var state = tony.pushState;
-	      if (window.location.pathname.indexOf(this.data.urls.memeBase) != -1) {
-	        state = tony.id;
-	      }
+	      this.setCurrentTonyByData(thumb);
+	      var state = History.getState().hash.indexOf(this.data.memeBase) === -1 ? tony.pushState : state = tony.id;
 	
-	      History.pushState({ id: tony.id }, "Tony: " + tony.id, state);
+	      History.pushState({ id: "tony-" + tony.id }, this.data.title + ": " + tony.id, state);
+	    }
+	  }, {
+	    key: "setCurrentTonyByData",
+	    value: function setCurrentTonyByData(tonyData) {
+	      var tony = this.data.currentTony;
+	      tony.link = tonyData.url;
+	      tony.id = tonyData.id;
+	      tony.deeplink = tonyData.deeplink;
+	      tony.pushState = tonyData.pushState;
 	    }
 	  }, {
 	    key: "uploadTony",

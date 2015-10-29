@@ -9,9 +9,9 @@
   <title>The Volpelator - Tony Pointy Meme Machine</title>
   <link rel="stylesheet" href="stylesheets/global.css">
 
-  <script src="javascripts/v.min.js"></script>
-  <script src="javascripts/shared.min.js"></script>
-  <script src="javascripts/application.min.js"></script>
+  <script src="/javascripts/v.min.js"></script>
+  <script src="/javascripts/shared.js"></script>
+  <script src="/javascripts/application.js"></script>
 </head>
 <body>
 
@@ -19,7 +19,7 @@
     <header class="row" id="header">
       
   <div class="col-lg-8 col-md-8 col-centered">
-  <img src="./images/title-2x.png" alt="The Volpelator - Tony Pointy Meme Machine"/>
+  <img src="/images/title-2x.png" alt="The Volpelator - Tony Pointy Meme Machine"/>
 </div>
 
 
@@ -65,7 +65,7 @@
 
   <div class="modal-dialog">
     <a class="overlay-close" data-target="#tonymaker-overlay" data-dismiss="modal">
-      <img src="images/close-2x.png" alt="close"/>
+      <img src="/images/close-2x.png" alt="close"/>
     </a>
     <div class="modal-content">
       
@@ -144,14 +144,12 @@
 
 </div>
 
-
-
   <div id="tonymaker-success" class="modal fade" data-backdrop="true" role="dialog">
   <!-- close button -->
 
   <div class="modal-dialog">
     <a class="overlay-close" data-target="#tonymaker-success" data-dismiss="modal">
-      <img src="images/close-2x.png" alt="close"/>
+      <img src="/images/close-2x.png" alt="close"/>
     </a>
     <div class="modal-content">
       
@@ -160,7 +158,7 @@
       <h4>Duuuude, that’s awesome!</h4>
 
       <div class="uploadsuccess">
-      <img src="./images/greatsuccess-2x.jpg" alt="success!"/>
+      <img src="/images/greatsuccess-2x.jpg" alt="success!"/>
       </div>
     </div>
       Don’t forget to tell your special gal!
@@ -172,14 +170,12 @@
 
 </div>
 
-
-
   <div id="tonymaker-error" class="modal fade" data-backdrop="true" role="dialog">
   <!-- close button -->
 
   <div class="modal-dialog">
     <a class="overlay-close" data-target="#tonymaker-error" data-dismiss="modal">
-      <img src="images/close-2x.png" alt="close"/>
+      <img src="/images/close-2x.png" alt="close"/>
     </a>
     <div class="modal-content">
       
@@ -188,7 +184,7 @@
       <h4>DANG!</h4>
 
       <div class="uploaderror">
-      <img src="./images/fail-2x.jpg" alt="error"/>
+      <img src="/images/fail-2x.jpg" alt="error"/>
       </div>
     </div>
       Duuude! Something went wrong.<br>Please try again later.
@@ -200,14 +196,12 @@
 
 </div>
 
-
-
   <div id="techlead" class="modal fade" data-backdrop="true" role="dialog">
   <!-- close button -->
 
   <div class="modal-dialog">
     <a class="overlay-close" data-target="#techlead" data-dismiss="modal">
-      <img src="images/close-2x.png" alt="close"/>
+      <img src="/images/close-2x.png" alt="close"/>
     </a>
     <div class="modal-content">
       
@@ -216,7 +210,7 @@
       <h4>Tech Lead: Tony Volpe</h4>
 
       <div class="techlead">
-      <img src="./images/techlead.jpg" alt="success!"/>
+      <img src="/images/techlead.jpg" alt="success!"/>
       </div>
     </div>
 
@@ -230,8 +224,6 @@
 </div>
 
 
-
-
     </div>
     <div class="row" id="footer">
       
@@ -243,7 +235,7 @@
     <img
       class="tony-footer-thumb col-xs-6 col-sm-4 col-md-3 col-lg-2"
       alt="{{thumb.id}}"
-      ng-repeat="($index, thumb) in vm.data.thumbList"
+      ng-repeat="($index, thumb) in vm.data.thumbList.slice().reverse()"
       ng-src="{{thumb.url}}"
       ng-click="vm.onThumbClick($index)"
     />

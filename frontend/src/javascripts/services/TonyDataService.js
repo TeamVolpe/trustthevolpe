@@ -1,15 +1,19 @@
 export default class TonyDataService{
 
-  constructor($http, $q, $log){
+  constructor($http, $q, $log, $document){
     this.$http = $http;
     this.$q = $q;
     this.$log = $log;
+    this.$document = $document;
     this.init();
+    this.checkDeepLink();
     this.loadData();
   }
 
   init(){
     let data = {};
+
+    data.title = this.$document[0].title;
 
     let urls = {};
     let loc = `${location.hostname}/`;
@@ -19,44 +23,79 @@ export default class TonyDataService{
     urls.imageList = urls.base + "meme_api/memes/";
     urls.imageUpload = urls.base + "meme_api/memes/";
     data.urls = urls;
-    console.log(data.urls);
-
-    data.currentTony = {
-      link: "images/meme-2x.jpg",
-      id: "tony-1138",
-      deeplink:`${urls.memeBase}0`
-    };
-
 
     let dummyList = [];
     for (let i = 0; i < 42; ++i){
       //match format of backend data
-      dummyList.push({image: "/images/meme-2x.jpg", id:`tony-1138-${i}`});
+      dummyList.push({image: "/images/meme-2x.jpg", id:`${i}`});
     }
     data.dummyList = dummyList;
 
     let thumbList = [];
     data.thumbList = thumbList;
 
-
+    data.currentTony = {
+      link: "",
+      id: "",
+      deeplink: ""
+    };
 
 
     this.data = data;
   }
 
+  checkDeepLink(){
+    let state = History.getState();
+    if(state.hash.indexOf(this.data.urls.memeBase) === -1 ){
+      // no deeplink
+      // don't load something, let it be set by the data list return;
+      //this.loadSingleTony(5);
+    }else{
+      // deeplink
+      let id = parseInt(state.url.split(this.data.urls.memeBase)[1]);
+      this.loadSingleTony(id);
+    }
+    /*
+    data.currentTony = {
+      link: "images/meme-2x.jpg",
+      id: "tony-1138",
+      deeplink:`${urls.memeBase}0`
+    };
+    */
+  }
+
+  loadSingleTony(id){
+    let data = this.data;
+    if(data.thumbList[id]){
+      this.setCurrentTony(id);
+    }else{
+      this.$http.get( `${data.urls.imageList}${id}` ).then(
+        (result) => {
+          console.log(result);
+          //this.setThumbList(result.data);
+          this.formatImageData(result.data);
+          this.setCurrentTonyByData(result.data);
+        },
+        (message, code) => {
+          //this.setThumbList(data.dummyList);
+          //this.$log.warn("$http error - loadSingleTony: Using dummy data -", message, code);
+          data.currentTony.link = "images/meme-2x.jpg";
+          data.currentTony.id = "tony-1138";
+          data.currentTony.deeplink = `${data.urls.memeBase}0`;
+        }
+      );
+    }
+
+  }
+
   loadData(){
     this.$http.get( this.data.urls.imageList ).then(
       (data) => {
-        console.log(data);
-        //this.data.thumbList = data.data;
         this.setThumbList(data.data);
-        //return this.data.thumbList;
       },
       (message, code) => {
         this.setThumbList(this.data.dummyList);
-        //this.data.thumbList = this.data.dummyList;
         this.$log.warn("$http error - getThumbList: Using dummy list -", message, code);
-        //return this.data.thumbList;
       }
     );
   }
@@ -70,16 +109,26 @@ export default class TonyDataService{
     let thumbList = this.data.thumbList;
     let memeBase = this.data.urls.memeBase;
     let baseUrl = `${this.data.urls.origin}${memeBase}`;
+    let format = this.formatImageData;
 
     thumbList.splice(0,thumbList.length);
     let len = arr.length;
     for( let i = 0; i <  len; ++i ){
       let elem = arr[i];
-      elem.url = elem.image;
-      elem.deeplink = `${baseUrl}${elem.id}`;
-      elem.pushState = `${memeBase}${elem.id}`;
+      format(elem, baseUrl, memeBase);
       thumbList.push(elem);
     }
+    let state = History.getState();
+    if(state.hash.indexOf(memeBase) === -1 ){
+      console.log("billy");
+      this.setCurrentTony(thumbList.length - 1);
+    }
+  }
+
+  formatImageData(obj,url,base){
+    obj.url = obj.image;
+    obj.deeplink = `${url}${obj.id}`;
+    obj.pushState = `${base}${obj.id}`;
   }
 
 /*
@@ -114,16 +163,18 @@ export default class TonyDataService{
   setCurrentTony(id){
     let tony = this.data.currentTony;
     let thumb = this.data.thumbList[id];
-    tony.link = thumb.url;
-    tony.id = thumb.id;
-    tony.deeplink = thumb.deeplink;
-    tony.pushState = thumb.pushState;
-    let state = tony.pushState;
-    if (window.location.pathname.indexOf(this.data.urls.memeBase) != -1){
-      state = tony.id;
-    }
+    this.setCurrentTonyByData(thumb);
+    let state = History.getState().hash.indexOf(this.data.memeBase) === -1 ? tony.pushState : state = tony.id;
 
-    History.pushState({id: tony.id}, `Tony: ${tony.id}`, state);
+    History.pushState({id: `tony-${tony.id}`}, `${this.data.title}: ${tony.id}`, state);
+  }
+
+  setCurrentTonyByData(tonyData){
+    let tony = this.data.currentTony;
+    tony.link = tonyData.url;
+    tony.id = tonyData.id;
+    tony.deeplink = tonyData.deeplink;
+    tony.pushState = tonyData.pushState;
   }
 
   uploadTony(data, onComplete){

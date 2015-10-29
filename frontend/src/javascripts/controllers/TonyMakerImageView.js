@@ -28,11 +28,11 @@ export default class TonyMakerImageView {
     preload.on("complete", () => {this.onFilesLoaded(preload); }, this);
 
     preload.loadManifest([
-      {id:"trust", src: "images/loltony-trust-2x.png"},
-      {id:"write", src: "images/loltony-write-2x.png"},
-      {id:"overlay", src: "images/loltony-overlay-2x.png"},
-      {id:"placeholder", src: "images/loltony-placeholder-2x.png"},
-      {id:"base", src: "images/loltony-base-2x.png"}
+      {id:"trust", src: "/images/loltony-trust-2x.png"},
+      {id:"write", src: "/images/loltony-write-2x.png"},
+      {id:"overlay", src: "/images/loltony-overlay-2x.png"},
+      {id:"placeholder", src: "/images/loltony-placeholder-2x.png"},
+      {id:"base", src: "/images/loltony-base-2x.png"}
     ]);
   }
 

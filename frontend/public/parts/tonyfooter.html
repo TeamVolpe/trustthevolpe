@@ -6,7 +6,7 @@
     <img
       class="tony-footer-thumb col-xs-6 col-sm-4 col-md-3 col-lg-2"
       alt="{{thumb.id}}"
-      ng-repeat="($index, thumb) in vm.data.thumbList"
+      ng-repeat="($index, thumb) in vm.data.thumbList.slice().reverse()"
       ng-src="{{thumb.url}}"
       ng-click="vm.onThumbClick($index)"
     />
