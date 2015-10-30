@@ -922,7 +922,7 @@ webpackJsonp([0,1],[
 	      this.setCurrentTonyByData(thumb);
 	      var state = History.getState().hash.indexOf(this.data.urls.memeBase) === -1 ? tony.pushState : tony.id;
 	
-	      History.pushState({ id: "tony-" + tony.id }, this.data.title + ": " + tony.id, state);
+	      History.pushState({ id: "tony-" + tony.id }, this.data.title + ": " + tony.id, state.toString());
 	    }
 	  }, {
 	    key: "setCurrentTonyByData",

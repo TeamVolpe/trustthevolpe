@@ -138,7 +138,7 @@ export default class TonyDataService{
     this.setCurrentTonyByData(thumb);
     let state = History.getState().hash.indexOf(this.data.urls.memeBase) === -1 ? tony.pushState : tony.id;
 
-    History.pushState({id: `tony-${tony.id}`}, `${this.data.title}: ${tony.id}`, state);
+    History.pushState({id: `tony-${tony.id}`}, `${this.data.title}: ${tony.id}`, state.toString());
   }
 
   setCurrentTonyByData(tonyData){
