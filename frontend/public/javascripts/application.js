@@ -879,7 +879,7 @@ webpackJsonp([0,1],[
 	      var state = History.getState();
 	      if (state.hash.indexOf(memeBase) === -1) {
 	        console.log("billy");
-	        this.setCurrentTony(thumbList.length - 1);
+	        this.setCurrentTonyByData(thumbList[thumbList.length - 1]);
 	      }
 	    }
 	  }, {
@@ -889,32 +889,6 @@ webpackJsonp([0,1],[
 	      obj.deeplink = "" + url + obj.id;
 	      obj.pushState = "" + base + obj.id;
 	    }
-	
-	    /*
-	      getThumbList(){
-	        let promise;
-	    
-	        if (this.data.thumbList.length === 0){
-	          promise = this.$http.get( this.data.urls.imageList).then(
-	            (data) => {
-	              this.data.thumbList = data.data;
-	              return this.data.thumbList;
-	            },
-	            (message, code) => {
-	              this.data.thumbList = this.data.dummyList;
-	              this.$log.error("$http error - getThumbList: Using dummy list -", message, code);
-	              return this.data.thumbList;
-	            }
-	          );
-	        }else{
-	          let deferred = this.$q.defer();
-	          deferred.resolve(this.data.thumbList);
-	          promise = deferred.promise;
-	        }
-	    
-	        return promise;
-	      }
-	    */
 	  }, {
 	    key: "getCurrentTony",
 	    value: function getCurrentTony() {
@@ -926,7 +900,7 @@ webpackJsonp([0,1],[
 	      var tony = this.data.currentTony;
 	      var thumb = this.data.thumbList[id];
 	      this.setCurrentTonyByData(thumb);
-	      var state = History.getState().hash.indexOf(this.data.memeBase) === -1 ? tony.pushState : state = tony.id;
+	      var state = History.getState().hash.indexOf(this.data.urls.memeBase) === -1 ? tony.pushState : state = tony.id;
 	
 	      History.pushState({ id: "tony-" + tony.id }, this.data.title + ": " + tony.id, state);
 	    }

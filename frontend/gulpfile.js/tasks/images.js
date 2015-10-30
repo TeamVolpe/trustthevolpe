@@ -5,6 +5,8 @@ var gulp        = require('gulp');
 var imagemin    = require('gulp-imagemin');
 
 gulp.task('images', function() {
+  gulp.src(config.faviconSrc).pipe(gulp.dest(config.faviconDest));
+
   return gulp.src(config.src)
     .pipe(changed(config.dest)) // Ignore unchanged files
     .pipe(imagemin()) // Optimize

@@ -8,7 +8,7 @@
       alt="{{thumb.id}}"
       ng-repeat="($index, thumb) in vm.data.thumbList.slice().reverse()"
       ng-src="{{thumb.url}}"
-      ng-click="vm.onThumbClick($index)"
+      ng-click="vm.onThumbClick(thumb.id)"
     />
   </div>
   <a id="credits">CREDITS</a>

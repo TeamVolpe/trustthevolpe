@@ -121,7 +121,7 @@ export default class TonyDataService{
     let state = History.getState();
     if(state.hash.indexOf(memeBase) === -1 ){
       console.log("billy");
-      this.setCurrentTony(thumbList.length - 1);
+      this.setCurrentTonyByData(thumbList[thumbList.length - 1]);
     }
   }
 
@@ -131,31 +131,6 @@ export default class TonyDataService{
     obj.pushState = `${base}${obj.id}`;
   }
 
-/*
-  getThumbList(){
-    let promise;
-
-    if (this.data.thumbList.length === 0){
-      promise = this.$http.get( this.data.urls.imageList).then(
-        (data) => {
-          this.data.thumbList = data.data;
-          return this.data.thumbList;
-        },
-        (message, code) => {
-          this.data.thumbList = this.data.dummyList;
-          this.$log.error("$http error - getThumbList: Using dummy list -", message, code);
-          return this.data.thumbList;
-        }
-      );
-    }else{
-      let deferred = this.$q.defer();
-      deferred.resolve(this.data.thumbList);
-      promise = deferred.promise;
-    }
-
-    return promise;
-  }
-*/
   getCurrentTony(){
     return this.data.currentTony;
   }
@@ -164,7 +139,7 @@ export default class TonyDataService{
     let tony = this.data.currentTony;
     let thumb = this.data.thumbList[id];
     this.setCurrentTonyByData(thumb);
-    let state = History.getState().hash.indexOf(this.data.memeBase) === -1 ? tony.pushState : state = tony.id;
+    let state = History.getState().hash.indexOf(this.data.urls.memeBase) === -1 ? tony.pushState : state = tony.id;
 
     History.pushState({id: `tony-${tony.id}`}, `${this.data.title}: ${tony.id}`, state);
   }
