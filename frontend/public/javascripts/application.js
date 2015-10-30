@@ -813,13 +813,6 @@ webpackJsonp([0,1],[
 	          var id = parseInt(state.url.split(this.data.urls.memeBase)[1]);
 	          this.loadSingleTony(id);
 	        }
-	      /*
-	      data.currentTony = {
-	        link: "images/meme-2x.jpg",
-	        id: "tony-1138",
-	        deeplink:`${urls.memeBase}0`
-	      };
-	      */
 	    }
 	  }, {
 	    key: "loadSingleTony",
@@ -831,13 +824,9 @@ webpackJsonp([0,1],[
 	        this.setCurrentTony(id);
 	      } else {
 	        this.$http.get("" + data.urls.imageList + id).then(function (result) {
-	          console.log(result);
-	          //this.setThumbList(result.data);
 	          _this.formatImageData(result.data);
 	          _this.setCurrentTonyByData(result.data);
 	        }, function (message, code) {
-	          //this.setThumbList(data.dummyList);
-	          //this.$log.warn("$http error - loadSingleTony: Using dummy data -", message, code);
 	          data.currentTony.link = "images/meme-2x.jpg";
 	          data.currentTony.id = "tony-1138";
 	          data.currentTony.deeplink = data.urls.memeBase + "0";
@@ -878,7 +867,6 @@ webpackJsonp([0,1],[
 	      }
 	      var state = History.getState();
 	      if (state.hash.indexOf(memeBase) === -1) {
-	        console.log("billy");
 	        this.setCurrentTonyByData(thumbList[thumbList.length - 1]);
 	      }
 	    }
@@ -895,12 +883,44 @@ webpackJsonp([0,1],[
 	      return this.data.currentTony;
 	    }
 	  }, {
+	    key: "getTonyById",
+	    value: function getTonyById(id) {
+	      var _iteratorNormalCompletion = true;
+	      var _didIteratorError = false;
+	      var _iteratorError = undefined;
+	
+	      try {
+	        for (var _iterator = this.data.thumbList[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	          var tony = _step.value;
+	
+	          if (tony.id === id) {
+	            return tony;
+	          }
+	        }
+	      } catch (err) {
+	        _didIteratorError = true;
+	        _iteratorError = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion && _iterator["return"]) {
+	            _iterator["return"]();
+	          }
+	        } finally {
+	          if (_didIteratorError) {
+	            throw _iteratorError;
+	          }
+	        }
+	      }
+	
+	      return undefined;
+	    }
+	  }, {
 	    key: "setCurrentTony",
 	    value: function setCurrentTony(id) {
 	      var tony = this.data.currentTony;
-	      var thumb = this.data.thumbList[id];
+	      var thumb = this.getTonyById(id);
 	      this.setCurrentTonyByData(thumb);
-	      var state = History.getState().hash.indexOf(this.data.urls.memeBase) === -1 ? tony.pushState : state = tony.id;
+	      var state = History.getState().hash.indexOf(this.data.urls.memeBase) === -1 ? tony.pushState : tony.id;
 	
 	      History.pushState({ id: "tony-" + tony.id }, this.data.title + ": " + tony.id, state);
 	    }
